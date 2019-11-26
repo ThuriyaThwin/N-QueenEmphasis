@@ -1,4 +1,6 @@
 import Backjumping.prosser.CBJ;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import model.nqueen.IntegrableApplication;
 import model.nqueen.NQueensViewCtrl;
 import model.nqueen.TaskExecutionPaneBuilder;
@@ -78,7 +80,7 @@ public class NQueensCspApp extends IntegrableApplication {
     }
 
     protected List<Parameter> createParameters() {
-        Parameter p1 = new Parameter(PARAM_STRATEGY, "Choose Algorithms","BT","BJ", "FC", "AC3-FC", "MAC-3", "FC-MRV","FC-LCV");
+        Parameter p1 = new Parameter(PARAM_STRATEGY, "Choose Algorithms","BT","BJ","FC", "AC3-FC", "MAC-3", "FC-MRV","FC-LCV");
         Object[] arr = new Object[97];
         for (int i = 0; i < 97; i++) {
             arr[i] = i + 4;
@@ -91,6 +93,12 @@ public class NQueensCspApp extends IntegrableApplication {
                 (TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0, 100, 400, 800, Integer.MAX_VALUE);
         p4.setValueNames("VeryFast", "Fast", "Medium", "Slow", "StepMode");
         return Arrays.asList(p1, p2,p3,p4);
+    }
+
+    public void runAnotherApp(Class<? extends Application> BJCspApp) throws Exception {
+        Application app2 = BJCspApp.newInstance();
+        Stage anotherStage = new Stage();
+        app2.start(anotherStage);
     }
 
     /**
@@ -106,6 +114,12 @@ public class NQueensCspApp extends IntegrableApplication {
         if (strategy.equals("BT")) {
             bSolver=new FlexibleBacktrackingSolver<>();
         }else if(strategy.equals("BJ")){
+            try {
+                runAnotherApp(BJCspApp.class);
+            }catch (Exception e)
+            {
+
+            }
 
         }
         else if(strategy.equals("FC"))
