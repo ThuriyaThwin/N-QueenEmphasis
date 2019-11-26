@@ -87,7 +87,10 @@ public class NQueensCspApp extends IntegrableApplication {
         p2.setDefaultValueIndex(0);
 
         Parameter p3 = new Parameter(SOLUTION,"Single","All");
-        return Arrays.asList(p1, p2,p3);
+        Parameter p4 = new Parameter
+                (TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0, 100, 400, 800, Integer.MAX_VALUE);
+        p4.setValueNames("VeryFast", "Fast", "Medium", "Slow", "StepMode");
+        return Arrays.asList(p1, p2,p3,p4);
     }
 
     /**

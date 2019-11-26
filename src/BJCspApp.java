@@ -36,23 +36,17 @@ public class BJCspApp extends IntegrableApplication {
     private final static String SOLUTION="solution =";
     private final static String PARAM_STRATEGY = "";
     private final static String PARAM_BOARD_SIZE = "b = ";
-
     private NQueensViewCtrl stateViewCtrl;
     private TaskExecutionPaneCtrl taskPaneCtrl;
-    private CSP<Variable, Integer> csp;
-    private CspSolver<Variable, Integer> solver;
-    private CspListener.StepCounter<Variable, Integer> stepCounter = new CspListener.StepCounter<>();
     FlexibleBacktrackingSolver<Variable, Integer> bSolver=new FlexibleBacktrackingSolver<>();
-    CBJ a;
     public static String size;
     NQueensBoard board;
 
-    public StoreResult storeResult=new StoreResult();
-    private String algorithmName;
+
 
     @Override
     public String getTitle() {
-        return "N-Queens CSP App";
+        return "BJ CSP App";
     }
 
     /**
@@ -75,13 +69,13 @@ public class BJCspApp extends IntegrableApplication {
         builder.defineInitMethod(this::initialize);
         builder.defineTaskMethod(this::startExperiment);
         taskPaneCtrl = builder.getResultFor(root);
-        taskPaneCtrl.setParam(TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0);
+
         return root;
+
     }
 
     protected List<Parameter> createParameters() {
-
-        Parameter p1 = new Parameter(PARAM_STRATEGY, "Choose Algorithms","BT","BJ", "FC", "AC3-FC", "MAC-3", "FC-MRV","FC-LCV");
+        Parameter p1=new Parameter(PARAM_STRATEGY,"BJ");
         Object[] arr = new Object[97];
         for (int i = 0; i < 97; i++) {
             arr[i] = i + 4;
@@ -90,8 +84,11 @@ public class BJCspApp extends IntegrableApplication {
         Parameter p2 = new Parameter(PARAM_BOARD_SIZE, arr);
         p2.setDefaultValueIndex(0);
 
-        Parameter p3 = new Parameter(SOLUTION,"Single","All");
-        return Arrays.asList(p1, p2,p3);
+        Parameter p3 = new Parameter(SOLUTION,"Single");
+        Parameter p4 = new Parameter
+                (TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0);
+        p4.setValueNames("VeryFast");
+        return Arrays.asList(p1, p2,p3,p4);
     }
 
     /**
@@ -129,19 +126,13 @@ public class BJCspApp extends IntegrableApplication {
         Object choice = taskPaneCtrl.getParamValue(SOLUTION);
         NQueensBoard board=getBoard();
         stateViewCtrl.update(board);
-        if(choice.equals("Single")) {
 
-        }
-        else {
-
-        }
 
         taskPaneCtrl.setText(a.get());
         taskPaneCtrl.setText("................................");
         taskPaneCtrl.setText("</Simulation-Log>\n");
         taskPaneCtrl.setText(board.getBoardPic());
         double end = System.currentTimeMillis();
-
         bSolver.clearAll();
         Bcssp.aa.clear();
         System.gc();
@@ -163,7 +154,20 @@ public class BJCspApp extends IntegrableApplication {
         return board;
     }
 
+    /*private NQueensBoard getBoard() {
+        int size=taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE);
+        NQueensBoard board = new NQueensBoard(size, NQueensBoard.Config.EMPTY);
 
+
+        for (int index = 0; index< CBJ.arrayList.size(); index++) {
+            String st=CBJ.arrayList.get(index);
+            String[] a =st.split(" ");
+            int col=Integer.parseInt(a[0]);
+            int row=Integer.parseInt(a[1]);
+            board.addQueenAt(new XYLocation(col, row));
+        }
+        return board;
+    }*/
 
     /**
      * Caution: While the background thread should be slowed down, updates of
@@ -173,7 +177,7 @@ public class BJCspApp extends IntegrableApplication {
     private void updateStateView(NQueensBoard board) {
         Platform.runLater(() -> { //if you need to update a GUI component from a non-GUI thread,you can use that to put your update in a queue
             stateViewCtrl.update(board);
-            taskPaneCtrl.setStatus(stepCounter.getResults().toString());
+            taskPaneCtrl.setStatus("");
         });
         taskPaneCtrl.waitAfterStep();
     }

@@ -42,13 +42,13 @@ public class NQueensCSP extends CSP<Variable, Integer> {
 		NQueensCSP nQueensCSP=new NQueensCSP(10);
 		Optional assignment;
 		FlexibleBacktrackingSolver backtrackingSolver=new FlexibleBacktrackingSolver();
-		backtrackingSolver.addCspListener(new CspListener() {
+		/*backtrackingSolver.addCspListener(new CspListener() {
 			@Override
 			public void stateChanged(CSP csp, Assignment assignment, Variable variable) {
 
 				System.out.println("Assignment evolved : " +assignment);
 			}
-		});
+		});*/
 
 		double start = System.currentTimeMillis();
 

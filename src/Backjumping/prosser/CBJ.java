@@ -10,7 +10,7 @@ public class CBJ extends Bcssp {
     private ValSet conf_set[];
     private ValSet current_domain[];
     public static final StringBuilder stringBuilder=new StringBuilder();
-    public static final ArrayList<String> a=new ArrayList<>();
+    public static final ArrayList<String> arrayList=new ArrayList<>();
     public static final ArrayList variable=new ArrayList();
     public String get()
     {
@@ -46,7 +46,7 @@ public class CBJ extends Bcssp {
                 v[i] = d_index;
                 //System.out.println("The Queen Movement :"+ (v[i]+1));
                 stringBuilder.append("Q"+(i+1)+"="+ (v[i]+1)+"\n");
-              //  a.add(i+" "+v[i]);
+                arrayList.add(i+" "+v[i]);
                 assignments++;
                 consistant = true;
 
@@ -68,7 +68,7 @@ public class CBJ extends Bcssp {
             }
            // System.out.println("The placement :"+(v[i]+1)+"\n");
             /*a.append("\n");*/
-            a.add(i+" "+v[i]);
+
             if (consistant)
                 return (i + 1);
             else
@@ -78,7 +78,7 @@ public class CBJ extends Bcssp {
 
     @Override
     public int unlabel(int i) {
-
+        stringBuilder.append("Backtrack "+(i+1)+"\n");
         int h;
         h = conf_set[i].get_max();
 
