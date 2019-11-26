@@ -1,33 +1,26 @@
 import Backjumping.csp.Problem;
 import Backjumping.prosser.Bcssp;
 import Backjumping.prosser.CBJ;
-import model.nqueen.IntegrableApplication;
-import model.nqueen.NQueensViewCtrl;
-import model.nqueen.TaskExecutionPaneBuilder;
-import model.nqueen.TaskExecutionPaneCtrl;
-import engine.algo.CspHeuristics;
 import engine.algo.FlexibleBacktrackingSolver;
-import engine.csp.*;
-import engine.csp.inference.AC3Strategy;
-import engine.csp.inference.ForwardCheckingStrategy;
+import engine.csp.CSP;
+import engine.csp.CspListener;
+import engine.csp.CspSolver;
+import engine.csp.Variable;
 import javafx.application.Platform;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import model.nqueen.NQueensCSP;
-import util.StoreResult;
-import util.XYLocation;
+import model.nqueen.IntegrableApplication;
+import model.nqueen.NQueensViewCtrl;
+import model.nqueen.TaskExecutionPaneBuilder;
+import model.nqueen.TaskExecutionPaneCtrl;
 import model.nqueen.view.NQueensBoard;
 import model.nqueen.view.Parameter;
+import util.StoreResult;
+import util.XYLocation;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * Integrable application which demonstrates how different CSP solution
@@ -68,7 +61,7 @@ public class BJCspApp extends IntegrableApplication {
      */
 
     @Override
-    public Pane createRootPane()throws Exception {
+    public Pane createRootPane() {
         BorderPane root = new BorderPane();
 
         StackPane stateView = new StackPane();
@@ -108,17 +101,17 @@ public class BJCspApp extends IntegrableApplication {
     public void initialize() {
 
         stateViewCtrl.update(new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.EMPTY));
-
         updateStateView(getBoard());//Board Size gives static pic.
-
         taskPaneCtrl.setStatus("");
         taskPaneCtrl.textArea.clear();
         bSolver.clearAll();
+        System.gc();
+        Bcssp.aa.clear();
     }
 
     @Override
     public void finalize() {
-
+        board.clear();
     }
 
      /**
@@ -126,51 +119,40 @@ public class BJCspApp extends IntegrableApplication {
      */
 
     public void startExperiment() {
+
+
+        board=new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.EMPTY);
+
         CBJ a=new CBJ(new Problem(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE)));
         a.bcssp();
         a.printV(System.out);
         Object choice = taskPaneCtrl.getParamValue(SOLUTION);
-
-
+        NQueensBoard board=getBoard();
+        stateViewCtrl.update(board);
         if(choice.equals("Single")) {
 
         }
         else {
-            board=new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.EMPTY);
+
         }
 
         taskPaneCtrl.setText(a.get());
         taskPaneCtrl.setText("................................");
         taskPaneCtrl.setText("</Simulation-Log>\n");
+        taskPaneCtrl.setText(board.getBoardPic());
         double end = System.currentTimeMillis();
 
         bSolver.clearAll();
-       // board.clear();
+        Bcssp.aa.clear();
+        System.gc();
     }
 
-    /*private NQueensBoard getBoard() {
-        int size=taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE);
-        NQueensBoard board = new NQueensBoard(size);
-        ArrayList<Integer> arr=new ArrayList<>();
-        for (int index=0;index<size;index++) {
-            String st=CBJ.a.get(CBJ.a.size()-(index+1));
-            String[] a =st.split(" ");
-            int col=Integer.parseInt(a[0]);
-            int row=Integer.parseInt(a[1]);
-            board.addQueenAt(new XYLocation(col, row));
-           // board.removeQueenFrom(new XYLocation(col,row));
-        }
-        return board;
-    }*/
 
     private NQueensBoard getBoard() {
         int size=taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE);
         NQueensBoard board = new NQueensBoard(size, NQueensBoard.Config.EMPTY);
 
-        for (int index = 0; index< size; index++) {
-            for(int l=0;l<size;l++)
-                board.removeQueenFrom(new XYLocation(index, l));
-        }
+
         for (int index = 0; index< Bcssp.aa.size(); index++) {
             String st=Bcssp.aa.get(index).toString();
             String[] a =st.split(" ");
@@ -181,16 +163,7 @@ public class BJCspApp extends IntegrableApplication {
         return board;
     }
 
-      /*private NQueensBoard removeBoard() {
-        int size=taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE);
-        NQueensBoard board = new NQueensBoard(size, NQueensBoard.Config.EMPTY);
 
-        for (int index = 0; index< size; index++) {
-            for(int l=0;l<size;l++)
-            board.removeQueenFrom(new XYLocation(index, l));
-        }
-        return board;
-    }*/
 
     /**
      * Caution: While the background thread should be slowed down, updates of
