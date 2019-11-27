@@ -41,7 +41,7 @@ public class BJCspApp extends IntegrableApplication {
     FlexibleBacktrackingSolver<Variable, Integer> bSolver=new FlexibleBacktrackingSolver<>();
     public static String size;
     NQueensBoard board;
-
+    public StoreResult storeResult=new StoreResult();
 
 
     @Override
@@ -117,22 +117,33 @@ public class BJCspApp extends IntegrableApplication {
 
     public void startExperiment() {
 
-
+        double start = System.currentTimeMillis();
         board=new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.EMPTY);
-
+        StringBuilder stringBuilder=new StringBuilder();
         CBJ a=new CBJ(new Problem(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE)));
         a.bcssp();
-        a.printV(System.out);
+        String soulution=a.printV();
         Object choice = taskPaneCtrl.getParamValue(SOLUTION);
         NQueensBoard board=getBoard();
         stateViewCtrl.update(board);
 
-
+        taskPaneCtrl.setText("<Simulation-Log>\n");
+        taskPaneCtrl.setText("................................");
         taskPaneCtrl.setText(a.get());
         taskPaneCtrl.setText("................................");
         taskPaneCtrl.setText("</Simulation-Log>\n");
+        taskPaneCtrl.setText("The solution is :"+soulution+"\n");
         taskPaneCtrl.setText(board.getBoardPic());
         double end = System.currentTimeMillis();
+        stringBuilder.append("Algorithm Name \t\t\t"+"BJ"+ "\n");
+
+        taskPaneCtrl.setText("Time to solve in second \t\t\t= " + (end - start) * 0.001 + " s");
+        stringBuilder.append("Time to solve in second       \t \t = " + (end - start) * 0.001 + " s"+ "\n");
+        taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + (Bcssp.assignments+1) + " nodes");
+        stringBuilder.append("Number of nodes visited\t\t\t= " + (Bcssp.assignments+1) + " nodes"+"\n");
+
+        storeResult=new StoreResult(stringBuilder.toString());
+        bSolver.clearAll();
         bSolver.clearAll();
         Bcssp.aa.clear();
         System.gc();

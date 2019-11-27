@@ -45,7 +45,7 @@ public class CBJ extends Bcssp {
                 }
                 v[i] = d_index;
                 //System.out.println("The Queen Movement :"+ (v[i]+1));
-                stringBuilder.append("Q"+(i+1)+"="+ (v[i]+1)+"\n");
+                stringBuilder.append("The Queen Movement Q"+(i+1)+"="+ (v[i]+1)+"\n");
                 arrayList.add(i+" "+v[i]);
                 assignments++;
                 consistant = true;
@@ -68,7 +68,7 @@ public class CBJ extends Bcssp {
             }
            // System.out.println("The placement :"+(v[i]+1)+"\n");
             /*a.append("\n");*/
-
+            stringBuilder.append("\n");
             if (consistant)
                 return (i + 1);
             else
@@ -78,7 +78,7 @@ public class CBJ extends Bcssp {
 
     @Override
     public int unlabel(int i) {
-        stringBuilder.append("Backtrack "+(i+1)+"\n");
+        stringBuilder.append("Backtracking occurs \n\n");
         int h;
         h = conf_set[i].get_max();
 

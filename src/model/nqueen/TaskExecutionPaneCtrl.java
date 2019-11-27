@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 
 import model.nqueen.view.NQueensBoard;
+import model.nqueen.view.Test;
 import util.CancellableThread;
 import util.StoreResult;
 import util.Tasks;
@@ -67,7 +68,9 @@ public class TaskExecutionPaneCtrl {
 		this.textArea = textArea;
 		this.boardsize = number;
 		this.store = store;
-
+		store.setOnMouseClicked(ev->{
+			Test a=new Test();
+		});
 		boardsize.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {

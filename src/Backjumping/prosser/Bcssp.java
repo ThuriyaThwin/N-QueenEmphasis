@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public abstract class Bcssp {
 
-    public int assignments = 0;  // how many assignments were made?
+    public static int assignments = 0;  // how many assignments were made?
     protected boolean consistant; // consistant variable from algorithem
     protected Problem problem;    // the problem to solve
     protected int v[];            // the assigment/solution vector
@@ -91,12 +91,14 @@ public abstract class Bcssp {
     // positive number are used with this function so we can return -1 if it was empty
 
     // print the results to a PrintStream (you can use System.out
-    public void printV(PrintStream output) {
-        output.print("Assignment=");
+    public String printV() {
+        StringBuilder s=new StringBuilder();
+        s.append("Assignment=");
         for (int i = 0; i < problem.getN(); i++) {
-            output.print("<" + (i + 1) + "," + (v[i] + 1) + ">,");
+            s.append("<" + (i + 1) + "," + (v[i] + 1) + ">,");
             aa.add(i+" "+v[i]);
         }
+        return s.toString();
     }
 
 
