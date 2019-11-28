@@ -19,7 +19,7 @@ public class NQueensBoard {
      * bottom with zero based index | | V
      */
 
-    int[][] squares;
+    final int[][] squares;
     int size;
 
     /**
@@ -116,7 +116,7 @@ public class NQueensBoard {
         return (queenExistsAt(l.getXCoOrdinate(), l.getYCoOrdinate()));
     }
 
-    private boolean queenExistsAt(int x, int y) {
+    public boolean queenExistsAt(int x, int y) {
         return (squares[x][y] == 1);
     }
 

@@ -97,12 +97,13 @@ public class BJCspApp extends IntegrableApplication {
     public void initialize() {
 
         stateViewCtrl.update(new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.EMPTY));
-      //  updateStateView(getBoard());//Board Size gives static pic.
+       // updateStateView(getBoard());//Board Size gives static pic.
         taskPaneCtrl.setStatus("");
         taskPaneCtrl.textArea.clear();
         bSolver.clearAll();
         System.gc();
         Bcssp.aa.clear();
+
     }
 
     @Override
@@ -123,8 +124,6 @@ public class BJCspApp extends IntegrableApplication {
         a.bcssp();
         String soulution=a.printV();
         NQueensBoard board=getBoard();
-
-
         taskPaneCtrl.setText("<Simulation-Log>\n");
         taskPaneCtrl.setText("................................");
         taskPaneCtrl.setText(a.get());
@@ -134,7 +133,6 @@ public class BJCspApp extends IntegrableApplication {
         taskPaneCtrl.setText(board.getBoardPic());
         double end = System.currentTimeMillis();
         stringBuilder.append("Algorithm Name \t\t\t"+"BJ"+ "\n");
-
         taskPaneCtrl.setText("Time to solve in second \t\t\t= " + (end - start) * 0.001 + " s");
         stringBuilder.append("Time to solve in second       \t \t = " + (end - start) * 0.001 + " s"+ "\n");
         taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + (Bcssp.assignments+1) + " nodes");
@@ -144,20 +142,23 @@ public class BJCspApp extends IntegrableApplication {
         bSolver.clearAll();
         Bcssp.aa.clear();
         System.gc();
+        CBJ.arrayList.clear();
     }
 
 
     private NQueensBoard getBoard() {
-        int size=taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE);
+        /*int size=taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE);*/
+        int size=board.getSize();
         NQueensBoard board = new NQueensBoard(size, NQueensBoard.Config.EMPTY);
 
 
-        for (int index = 0; index< Bcssp.aa.size(); index++) {
-            String st=Bcssp.aa.get(index).toString();
+        for (int index = 0; index< CBJ.arrayList.size(); index++) {
+            String st=CBJ.arrayList.get(index).toString();
                 String[] a = st.split(" ");
                 int col = Integer.parseInt(a[0]);
                 int row = Integer.parseInt(a[1]);
-                    board.addQueenAt(new XYLocation(col, row));
+                    board.moveQueenTo(new XYLocation(col,row));
+                   // board.addQueenAt(new XYLocation(col, row));
             updateStateView(board);
         }
         return board;
