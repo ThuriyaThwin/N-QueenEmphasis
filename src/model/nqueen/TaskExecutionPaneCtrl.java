@@ -8,23 +8,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
-
-import model.nqueen.view.NQueensBoard;
+import model.nqueen.view.Parameter;
 import model.nqueen.view.Test;
 import util.CancellableThread;
 import util.StoreResult;
 import util.Tasks;
-import model.nqueen.view.Parameter;
-import util.XYLocation;
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.PrintStream;
 import java.util.List;
 
 /**

@@ -1,6 +1,7 @@
 package engine.csp.domain;
 
 import util.ArrayIterator;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;

@@ -4,7 +4,6 @@ package model;
 import engine.algo.FlexibleBacktrackingSolver;
 import engine.csp.Assignment;
 import engine.csp.CSP;
-import engine.csp.CspListener;
 import engine.csp.Variable;
 import engine.csp.constraints.ExactSumConstraint;
 import engine.csp.domain.Domain;

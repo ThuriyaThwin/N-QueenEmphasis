@@ -6,8 +6,8 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import util.XYLocation;
 import model.nqueen.view.NQueensBoard;
+import util.XYLocation;
 
 /**
  * Controller class which provides functionality for using a stack pane as a

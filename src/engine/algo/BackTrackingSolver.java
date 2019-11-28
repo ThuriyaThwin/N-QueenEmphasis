@@ -5,7 +5,6 @@ import engine.csp.Assignment;
 import engine.csp.CSP;
 import engine.csp.CspSolver;
 import engine.csp.Variable;
-import engine.csp.inference.InferenceLog;
 import util.Tasks;
 
 import javax.swing.*;

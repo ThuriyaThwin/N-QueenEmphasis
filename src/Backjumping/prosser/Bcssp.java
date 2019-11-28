@@ -4,7 +4,7 @@ package Backjumping.prosser;
 import Backjumping.csp.Definitions;
 import Backjumping.csp.Problem;
 import Backjumping.util.stack.IntStack;
-import java.io.PrintStream;
+
 import java.util.ArrayList;
 
 //import IntStack;

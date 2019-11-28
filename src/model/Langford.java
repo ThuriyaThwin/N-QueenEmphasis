@@ -7,6 +7,7 @@ import engine.csp.Variable;
 import engine.csp.constraints.PairConstraint;
 import engine.csp.constraints.PositionConstraint;
 import engine.csp.domain.Domain;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -6,8 +6,6 @@ import engine.algo.FlexibleBacktrackingSolver;
 import engine.csp.Assignment;
 import engine.csp.inference.ForwardCheckingStrategy;
 
-import java.awt.*;
-import java.io.*;
 import java.util.Optional;
 
 

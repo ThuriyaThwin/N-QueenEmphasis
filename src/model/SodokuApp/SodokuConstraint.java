@@ -3,11 +3,8 @@ package model.SodokuApp;
 import engine.csp.Assignment;
 import engine.csp.Variable;
 import engine.csp.constraints.Constraint;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 
 public class SodokuConstraint implements Constraint {
