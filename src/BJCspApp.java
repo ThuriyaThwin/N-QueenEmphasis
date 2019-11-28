@@ -69,7 +69,6 @@ public class BJCspApp extends IntegrableApplication {
         builder.defineInitMethod(this::initialize);
         builder.defineTaskMethod(this::startExperiment);
         taskPaneCtrl = builder.getResultFor(root);
-
         return root;
 
     }
@@ -86,7 +85,7 @@ public class BJCspApp extends IntegrableApplication {
 
         Parameter p3 = new Parameter(SOLUTION,"Single");
         Parameter p4 = new Parameter
-                (TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0);
+                (TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 200);
         p4.setValueNames("VeryFast");
         return Arrays.asList(p1, p2,p3,p4);
     }
@@ -98,7 +97,7 @@ public class BJCspApp extends IntegrableApplication {
     public void initialize() {
 
         stateViewCtrl.update(new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.EMPTY));
-        updateStateView(getBoard());//Board Size gives static pic.
+      //  updateStateView(getBoard());//Board Size gives static pic.
         taskPaneCtrl.setStatus("");
         taskPaneCtrl.textArea.clear();
         bSolver.clearAll();
@@ -123,9 +122,8 @@ public class BJCspApp extends IntegrableApplication {
         CBJ a=new CBJ(new Problem(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE)));
         a.bcssp();
         String soulution=a.printV();
-        Object choice = taskPaneCtrl.getParamValue(SOLUTION);
         NQueensBoard board=getBoard();
-        stateViewCtrl.update(board);
+
 
         taskPaneCtrl.setText("<Simulation-Log>\n");
         taskPaneCtrl.setText("................................");
@@ -141,7 +139,6 @@ public class BJCspApp extends IntegrableApplication {
         stringBuilder.append("Time to solve in second       \t \t = " + (end - start) * 0.001 + " s"+ "\n");
         taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + (Bcssp.assignments+1) + " nodes");
         stringBuilder.append("Number of nodes visited\t\t\t= " + (Bcssp.assignments+1) + " nodes"+"\n");
-
         storeResult=new StoreResult(stringBuilder.toString());
         bSolver.clearAll();
         bSolver.clearAll();
@@ -157,10 +154,11 @@ public class BJCspApp extends IntegrableApplication {
 
         for (int index = 0; index< Bcssp.aa.size(); index++) {
             String st=Bcssp.aa.get(index).toString();
-            String[] a =st.split(" ");
-            int col=Integer.parseInt(a[0]);
-            int row=Integer.parseInt(a[1]);
-            board.addQueenAt(new XYLocation(col, row));
+                String[] a = st.split(" ");
+                int col = Integer.parseInt(a[0]);
+                int row = Integer.parseInt(a[1]);
+                    board.addQueenAt(new XYLocation(col, row));
+            updateStateView(board);
         }
         return board;
     }

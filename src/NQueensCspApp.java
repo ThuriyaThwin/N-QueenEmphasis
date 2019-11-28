@@ -44,7 +44,7 @@ public class NQueensCspApp extends IntegrableApplication {
     private CspSolver<Variable, Integer> solver;
     private CspListener.StepCounter<Variable, Integer> stepCounter = new CspListener.StepCounter<>();
     FlexibleBacktrackingSolver<Variable, Integer> bSolver=new FlexibleBacktrackingSolver<>();
-    CBJ a;
+
     public static String size;
 
 
@@ -77,6 +77,7 @@ public class NQueensCspApp extends IntegrableApplication {
         taskPaneCtrl = builder.getResultFor(root);
         taskPaneCtrl.setParam(TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0);
         return root;
+
     }
 
     protected List<Parameter> createParameters() {
@@ -166,10 +167,6 @@ public class NQueensCspApp extends IntegrableApplication {
 
     }
 
-
-    public void cleanup() {
-        taskPaneCtrl.cancelExecution();
-    }
 
     /**
      * Starts the experiment.

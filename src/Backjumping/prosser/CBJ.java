@@ -79,6 +79,7 @@ public class CBJ extends Bcssp {
     @Override
     public int unlabel(int i) {
         stringBuilder.append("Backtracking occurs \n\n");
+        //arrayList.add("BT");
         int h;
         h = conf_set[i].get_max();
 
