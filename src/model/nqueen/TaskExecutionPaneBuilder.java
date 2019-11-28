@@ -58,7 +58,7 @@ public class TaskExecutionPaneBuilder {
 	 */
 	public TaskExecutionPaneCtrl getResultFor(BorderPane pane) {
 		List<ComboBox<String>> combos = new ArrayList<>();
-		//parameters.add(createExecutionSpeedParam());//Can add parameters
+		parameters.add(createExecutionSpeedParam());//Can add parameters
 
 		for (Parameter param : parameters) {
 			ComboBox<String> combo = new ComboBox<>();
@@ -127,5 +127,10 @@ public class TaskExecutionPaneBuilder {
 	 * <code>Integer.MAX_VALUE</code> is used for step mode.
 	 */
 
-
+	protected Parameter createExecutionSpeedParam() {
+		Parameter result = new Parameter(TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 20, 100, 400, 800, Integer.MAX_VALUE);
+		result.setValueNames("VeryFast", "Fast", "Medium", "Slow", "Pause");
+		result.setDefaultValueIndex(2);
+		return result;
+	}
 }

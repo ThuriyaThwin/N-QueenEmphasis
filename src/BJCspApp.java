@@ -69,6 +69,7 @@ public class BJCspApp extends IntegrableApplication {
         builder.defineInitMethod(this::initialize);
         builder.defineTaskMethod(this::startExperiment);
         taskPaneCtrl = builder.getResultFor(root);
+        taskPaneCtrl.setParam(TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0);
         return root;
 
     }
@@ -84,10 +85,8 @@ public class BJCspApp extends IntegrableApplication {
         p2.setDefaultValueIndex(0);
 
         Parameter p3 = new Parameter(SOLUTION,"Single");
-        Parameter p4 = new Parameter
-                (TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 200);
-        p4.setValueNames("VeryFast");
-        return Arrays.asList(p1, p2,p3,p4);
+
+        return Arrays.asList(p1, p2,p3);
     }
 
     /**

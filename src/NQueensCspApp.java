@@ -1,4 +1,5 @@
 import Backjumping.prosser.CBJ;
+import engine.algo.AbstractBacktrackingSolver;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.nqueen.IntegrableApplication;
@@ -90,10 +91,8 @@ public class NQueensCspApp extends IntegrableApplication {
         p2.setDefaultValueIndex(0);
 
         Parameter p3 = new Parameter(SOLUTION,"Single","All");
-        Parameter p4 = new Parameter
-                (TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0, 100, 400, 800, Integer.MAX_VALUE);
-        p4.setValueNames("VeryFast", "Fast", "Medium", "Slow", "StepMode");
-        return Arrays.asList(p1, p2,p3,p4);
+
+        return Arrays.asList(p1, p2,p3);
     }
 
     public void runAnotherApp(Class<? extends Application> BJCspApp) throws Exception {
@@ -194,6 +193,11 @@ public class NQueensCspApp extends IntegrableApplication {
         taskPaneCtrl.setText("</Simulation-Log>\n");
         double end = System.currentTimeMillis();
         stringBuilder.append("Algorithm Name \t\t\t"+algorithmName+ "\n");
+
+        if(choice.equals("All")) {
+            taskPaneCtrl.setText("The number of solution \t\t\t=" + bSolver.getNumberOfSolution());
+            stringBuilder.append("The number of solution =" + bSolver.getNumberOfSolution()+"\n");
+        }
 
         taskPaneCtrl.setText("Time to solve in second \t\t\t= " + (end - start) * 0.001 + " s");
         stringBuilder.append("Time to solve in second       \t \t = " + (end - start) * 0.001 + " s"+ "\n");

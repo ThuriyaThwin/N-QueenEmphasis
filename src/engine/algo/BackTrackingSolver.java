@@ -79,7 +79,7 @@ public class BackTrackingSolver<VAR extends Variable, VAL>  extends CspSolver<VA
         if (assignment.isComplete(csp.getVariables()) || Tasks.currIsCancelled()) {
             if(solveAll) {
                 // show a joption pane dialog using showMessageDialog
-                //JOptionPane.showMessageDialog(new JFrame("Solution"), ++count + " Solution Found :" + assignment.toString());
+                JOptionPane.showMessageDialog(new JFrame("Solution"), ++count + " Solution Found :" + assignment.toString());
                 count++;
             }else {
                 result = assignment;
