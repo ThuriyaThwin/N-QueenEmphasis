@@ -187,7 +187,7 @@ public class NQueensCspApp extends IntegrableApplication {
         taskPaneCtrl.setText("................................");
         taskPaneCtrl.setText("</Simulation-Log>\n");
         double end = System.currentTimeMillis();
-        stringBuilder.append("Algorithm Name \t\t\t"+algorithmName+ "\n");
+        stringBuilder.append("Algorithm Name \t\t= "+algorithmName+ "\n");
 
         if(choice.equals("All")) {
             taskPaneCtrl.setText("The number of solution \t\t\t=" + bSolver.getNumberOfSolution());

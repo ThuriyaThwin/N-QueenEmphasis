@@ -128,11 +128,11 @@ public class BJCspApp extends IntegrableApplication {
         taskPaneCtrl.setText("The solution is :"+soulution+"\n");
         taskPaneCtrl.setText(board.getBoardPic());
         double end = System.currentTimeMillis();
-        stringBuilder.append("Algorithm Name \t\t\t"+"BJ"+ "\n");
+        stringBuilder.append("Algorithm Name \t\t= "+"BJ"+ "\n");
         taskPaneCtrl.setText("Time to solve in second \t\t\t= " + (end - start) * 0.001 + " s");
-        stringBuilder.append("Time to solve in second       \t \t = " + (end - start) * 0.001 + " s"+ "\n");
+        stringBuilder.append("Time to solve in second       \t \t= " + (end - start) * 0.001 + " s"+ "\n");
         taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + (Bcssp.assignments+1) + " nodes");
-        stringBuilder.append("Number of nodes visited\t\t\t= " + (Bcssp.assignments+1) + " nodes"+"\n");
+        stringBuilder.append("Number of nodes visited\t\t= " + (Bcssp.assignments+1) + " nodes"+"\n");
         storeResult=new StoreResult(stringBuilder.toString());
         bSolver.clearAll();
         bSolver.clearAll();
