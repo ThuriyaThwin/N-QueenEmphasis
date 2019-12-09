@@ -143,13 +143,16 @@ public class Problem implements Serializable {
         for (int v1 = 0; v1 < n; v1++)
             for (int v2 = v1 + 1; v2 < n; v2++) {
                 if (constraints[v1][v2] != null) {
+                    output.print("\nVariables Pairs = ");
                     output.println(v1 + "---" + v2 + ":");
+                    output.println("Conflicted Values ");
                     for (int d1 = 0; d1 < d; d1++) {
                         IntStack stack = new IntStack();
                         for (int d2 = 0; d2 < d; d2++) {
                             if (!constraints[v1][v2][d1][d2])
                                 stack.push(d2);
                         }
+
                         if (!stack.isEmpty()) {
                             output.print("          " + d1 + ":[");
                             output.print(stack.peek(0));

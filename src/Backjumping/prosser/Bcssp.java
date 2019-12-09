@@ -60,16 +60,15 @@ public abstract class Bcssp {
 
 
         while (status == Definitions.StatOptions.UNKNOWN) {
-            if (consistant) {
+            if (consistant)
                 i = label(i);// can only return queen piece
-            }
             else
                 i = unlabel(i);
 
             if (i >= problem.getN())
                 status = Definitions.StatOptions.SOLUTION;
-            else if (i == -1)
-                status = Definitions.StatOptions.IMPOSSIBLE;
+           /* else if (i == -1)
+                status = Definitions.StatOptions.IMPOSSIBLE;*/
         }
 
 		/*  This is the printing of result as suggested by assignment it is
@@ -93,7 +92,7 @@ public abstract class Bcssp {
 
     // print the results to a PrintStream (you can use System.out
     public String printV() {
-        StringJoiner sj = new StringJoiner(", ", "{Assignment = ", "}");
+        StringJoiner sj = new StringJoiner(", ", "Assignment = { ", "}");
         for (int i = 0; i < problem.getN(); i++) {
 
             sj.add("<" + (i + 1) + "," + (v[i] + 1) + ">");
