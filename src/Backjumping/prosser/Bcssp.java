@@ -6,6 +6,7 @@ import Backjumping.csp.Problem;
 import Backjumping.util.stack.IntStack;
 
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 //import IntStack;
 
@@ -92,13 +93,13 @@ public abstract class Bcssp {
 
     // print the results to a PrintStream (you can use System.out
     public String printV() {
-        StringBuilder s=new StringBuilder();
-        s.append("Assignment=");
+        StringJoiner sj = new StringJoiner(", ", "{Assignment = ", "}");
         for (int i = 0; i < problem.getN(); i++) {
-            s.append("<" + (i + 1) + "," + (v[i] + 1) + ">,");
-            aa.add(i+" "+v[i]);
+
+            sj.add("<" + (i + 1) + "," + (v[i] + 1) + ">");
+            aa.add(i + " " + v[i]);
         }
-        return s.toString();
+        return sj.toString();
     }
 
 

@@ -49,62 +49,76 @@ import java.util.Optional;
  *
  * @param <VAR> Type which is used to represent variables
  * @param <VAL> Type which is used to represent the values in the domains
- *
  */
 public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> extends CspSolver<VAR, VAL> {
     private int numberOfBacktrack = 0;
-    private int numberOfNodesVisited=0;
-    private int numberOfNodesAssigned=0;
+    private int numberOfNodesVisited = 0;
+    private int numberOfNodesAssigned = 0;
     static int count = 0;
-    boolean solveAll=false;
+    boolean solveAll = false;
 
-    /** Applies a recursive backtracking search to solve the CSP. */
+    /**
+     * Applies a recursive backtracking search to solve the CSP.
+     */
     public Optional<Assignment<VAR, VAL>> solve(CSP<VAR, VAL> csp) {
         Assignment<VAR, VAL> result = backtrack(csp, new Assignment<>());
-        this.solveAll=false;
+        this.solveAll = false;
         return result != null ? Optional.of(result) : Optional.empty();
     }
 
-    public Optional<Assignment<VAR, VAL>> solveAll(CSP<VAR,VAL> csp)
-    {
+    public Optional<Assignment<VAR, VAL>> solveAll(CSP<VAR, VAL> csp) {
         this.clearAll();
-        this.solveAll=true;
+        this.solveAll = true;
         return this.solve(csp);
     }
 
+    // function BACKTRACK(assignment, csp) returns a solution, or failure
     private Assignment<VAR, VAL> backtrack(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment) {
         Assignment<VAR, VAL> result = null;
+        // if assignment is complete then return assignment
         if (assignment.isComplete(csp.getVariables()) || Tasks.currIsCancelled()) {
-            if(solveAll) {
+            if (solveAll) {
                 // show a joption pane dialog using showMessageDialog
                 JOptionPane.showMessageDialog(new JFrame("Solution"), ++count + " Solution Found :" + assignment.toString());
-            }else {
+            } else {
                 result = assignment;
             }
         } else {
+            // var <- SELECT-UNASSIGNED-VARIABLE(assignment, csp)
             VAR var = selectUnassignedVariable(csp, assignment);
+            // for each value in ORDER-DOMAIN-VALUES(var, assignment, csp) do
             for (VAL value : orderDomainValues(csp, assignment, var)) {
+                // if value is consistent with assignment then
                 assignment.add(var, value);
+                // add {var = value} to assignment
                 numberOfNodesVisited++;
                 fireStateChanged(csp, assignment, var);
                 if (assignment.isConsistent(csp.getConstraints(var))) {
                     numberOfNodesAssigned++;
+                    // inferences <- INFERENCE(csp, assignment, var, value)
                     InferenceLog<VAR, VAL> log = inference(csp, assignment, var);
+                    // if inferences != failure then
                     if (!log.isEmpty())
-                        fireStateChanged(csp,new Assignment<>(),var);
+                        fireStateChanged(csp, new Assignment<>(), var);
                     if (!log.inconsistencyFound()) {
                         result = backtrack(csp, assignment);
+                        // if result != failure then
                         if (result != null)
+                            // return result
                             break;
-                        if(result==null) {
+                        if (result == null) {
                             numberOfBacktrack++;
                         }
                     }
+                    // remove inferences from assignment
                     log.undo(csp);
                 }
+                // remove {var = value} from assignment
+
                 assignment.remove(var);
             }
         }
+        // return failure
         return result;
     }
 
@@ -130,25 +144,26 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
 
     protected abstract InferenceLog<VAR, VAL> inference(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var);
 
-    public int getNumberOfBacktrack()
-    {
+    public int getNumberOfBacktrack() {
         return numberOfBacktrack;
     }
 
     public int getNumberOfNodesVisited() {
-        return numberOfNodesVisited+1;
+        return numberOfNodesVisited + 1;
     }
 
     public int getNumberOfNodesAssigned() {
         return numberOfNodesAssigned;
     }
 
-    public int getNumberOfSolution()
-    {
+    public int getNumberOfSolution() {
         return count;
     }
-    public void clearAll()
-    {
-        this.numberOfNodesAssigned=0;this.numberOfNodesVisited=0;this.numberOfBacktrack=0;this.count=0;
+
+    public void clearAll() {
+        this.numberOfNodesAssigned = 0;
+        this.numberOfNodesVisited = 0;
+        this.numberOfBacktrack = 0;
+        this.count = 0;
     }
 }

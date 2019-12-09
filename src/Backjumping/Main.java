@@ -20,8 +20,7 @@ public class Main {
         System.out.println("Time to solve in second       = " + (end - start) * 0.001 + " s");
         /*a.printV(new PrintStream("a.txt"));
         a.printV(System.out);*/
-
-
+        System.out.println(a.printV());
        // writeUsingFileWriter(a.get());
 
     }
