@@ -6,7 +6,6 @@ import util.Metrics;
 /**
  * Interface which allows interested clients to register at a CSP solver
  * and follow its progress step by step.
- *
  */
 public interface CspListener<VAR extends Variable, VAL> {
     /**
@@ -22,6 +21,7 @@ public interface CspListener<VAR extends Variable, VAL> {
     /**
      * A simple CSP listener implementation which counts assignment changes and changes caused by
      * inference steps and provides some metrics.
+     *
      * @author Ruediger Lunde
      */
     class StepCounter<VAR extends Variable, VAL> implements CspListener<VAR, VAL> {
@@ -33,7 +33,6 @@ public interface CspListener<VAR extends Variable, VAL> {
             if (assignment != null)
                 ++assignmentCount;
         }
-
 
 
         public void reset() {

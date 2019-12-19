@@ -14,28 +14,28 @@ import java.util.List;
  * A constraint satisfaction problem or CSP consists of three components, X, D,
  * and C:
  * <ul>
- * <li>X is a set of variables, {X1, ... ,Xn}.</li>
+ * <li>X is a set of addVariable, {X1, ... ,Xn}.</li>
  * <li>D is a set of domains, {D1, ... ,Dn}, one for each variable.</li>
  * <li>C is a set of engine.csp.constraints that specify allowable combinations of values.</li>
  * </ul>
  *
- * @param <VAR> Type which is used to represent variables
+ * @param <VAR> Type which is used to represent addVariable
  * @param <VAL> Type which is used to represent the values in the domains
  *
  */
 public class CSP<VAR extends Variable, VAL> implements Cloneable {
 
-    private List<VAR> variables;
+    private List<VAR> addVariable;
     private List<Domain<VAL>> domains;
     private List<Constraint<VAR, VAL>> constraints;
 
     /**
-     * Lookup, which maps a variable to its index in the list of variables.
+     * Lookup, which maps a variable to its index in the list of addVariable.
      */
 
     private Hashtable<Variable, Integer> varIndexHash;
     /**
-     * Constraint network. Maps variables to those engine.csp.constraints in which they
+     * Constraint network. Maps addVariable to those engine.csp.constraints in which they
      * participate.
      */
 
@@ -45,7 +45,7 @@ public class CSP<VAR extends Variable, VAL> implements Cloneable {
      * Creates a new CSP.
      */
     public CSP() {
-        variables = new ArrayList<>();
+        addVariable = new ArrayList<>();
         domains = new ArrayList<>();
         constraints = new ArrayList<>();
         varIndexHash = new Hashtable<>();
@@ -66,9 +66,9 @@ public class CSP<VAR extends Variable, VAL> implements Cloneable {
     protected void addVariable(VAR var) {
         if (!varIndexHash.containsKey(var)) {
             Domain<VAL> emptyDomain = new Domain<>(Collections.emptyList());
-            variables.add(var);
+            addVariable.add(var);
             domains.add(emptyDomain);
-            varIndexHash.put(var, variables.size() - 1);
+            varIndexHash.put(var, addVariable.size() - 1);
             cnet.put(var, new ArrayList<>());
         } else {
             throw new IllegalArgumentException("Variable with same name already exists.");
@@ -76,7 +76,7 @@ public class CSP<VAR extends Variable, VAL> implements Cloneable {
     }
 
     public List<VAR> getVariables() {
-        return Collections.unmodifiableList(variables);
+        return Collections.unmodifiableList(addVariable);
     }
 
     public int indexOf(Variable var) {
