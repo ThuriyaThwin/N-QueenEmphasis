@@ -124,7 +124,7 @@ public class TaskExecutionPaneBuilder {
 	 */
 
 	protected Parameter createExecutionSpeedParam() {
-		Parameter result = new Parameter(TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 1, 100, 400, 800, Integer.MAX_VALUE);
+		Parameter result = new Parameter(TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0, 100, 400, 800, Integer.MAX_VALUE);
 		result.setValueNames("VeryFast", "Fast", "Medium", "Slow", "Pause");
 		result.setDefaultValueIndex(2);
 		return result;
