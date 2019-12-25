@@ -8,10 +8,12 @@ import java.util.List;
 
 public class DisjuctiveConstraint implements Constraint {
 	private List<Variable> scope;
+
 	@Override
 	public String toString() {
 		return "[" + a.getName()  + " + "+ time + " <= " + b.getName() + "]" + " or "+"[" + b.getName()  + " + "+ time + " <= " + a.getName() + "]" + System.lineSeparator();
 		}
+
 	Variable a;
 	Variable b;
 	int time;

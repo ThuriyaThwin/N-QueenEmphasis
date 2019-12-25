@@ -1,5 +1,6 @@
 package engine.csp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +50,12 @@ public abstract class CspSolver<VAR extends Variable, VAL> {
 
     /** Informs all registered listeners about a state change. */
     protected void fireStateChanged(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR variable) {
-        for (CspListener<VAR, VAL> listener : listeners)
-            listener.stateChanged(csp, assignment, variable);
+        for (CspListener<VAR, VAL> listener : listeners) {
+            try {
+                listener.stateChanged(csp, assignment, variable);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

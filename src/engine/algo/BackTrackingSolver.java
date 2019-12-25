@@ -86,6 +86,7 @@ public class BackTrackingSolver<VAR extends Variable, VAL>  extends CspSolver<VA
         } else {
             VAR var = VARIABLE(csp, assignment);
             for (VAL value : VALUE(csp, assignment, var)) {
+
                 assignment.add(var, value);
                 numberOfNodesVisited++;
                 fireStateChanged(csp, assignment, var);
@@ -94,7 +95,7 @@ public class BackTrackingSolver<VAR extends Variable, VAL>  extends CspSolver<VA
                         result = backtrack(csp, assignment);
                         if (result != null)
                             break;
-                        if(result==null) {
+                        if(result==null ) {
                             numberOfBacktrack++;
                         }
                     }

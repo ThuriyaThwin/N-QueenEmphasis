@@ -135,7 +135,6 @@ public class BJCspApp extends IntegrableApplication {
         stringBuilder.append("Number of nodes visited\t\t= " + (Bcssp.assignments+1) + " nodes"+"\n");
         storeResult=new StoreResult(stringBuilder.toString());
         bSolver.clearAll();
-        bSolver.clearAll();
         Bcssp.aa.clear();
         System.gc();
         CBJ.arrayList.clear();

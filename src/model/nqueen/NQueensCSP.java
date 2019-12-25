@@ -2,6 +2,7 @@ package model.nqueen;
 
 
 import engine.algo.FlexibleBacktrackingSolver;
+import engine.csp.Assignment;
 import engine.csp.CSP;
 import engine.csp.CspListener;
 import engine.csp.Variable;
@@ -38,16 +39,16 @@ public class NQueensCSP extends CSP<Variable, Integer> {
 
 	public static void main(String args[])
 	{
-		NQueensCSP nQueensCSP=new NQueensCSP(10);
+		NQueensCSP nQueensCSP=new NQueensCSP(4);
 		Optional assignment;
 		FlexibleBacktrackingSolver backtrackingSolver=new FlexibleBacktrackingSolver();
-		/*backtrackingSolver.addCspListener(new CspListener() {
+		backtrackingSolver.addCspListener(new CspListener() {
 			@Override
 			public void stateChanged(CSP csp, Assignment assignment, Variable variable) {
 
-				System.out.println("Assignment evolved : " +assignment);
+				//System.out.println("Assignment evolved : " +assignment);
 			}
-		});*/
+		});
 
 		double start = System.currentTimeMillis();
 

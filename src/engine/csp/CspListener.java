@@ -3,6 +3,8 @@ package engine.csp;
 
 import util.Metrics;
 
+import java.io.IOException;
+
 /**
  * Interface which allows interested clients to register at a CSP solver
  * and follow its progress step by step.
@@ -15,7 +17,7 @@ public interface CspListener<VAR extends Variable, VAL> {
      * @param assignment a new assignment or null if the last processing step was an inference step.
      * @param variable   a variable, whose engine.csp.domain or assignment value has been changed (may be null).
      */
-    void stateChanged(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR variable);
+    void stateChanged(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR variable) throws IOException;
 
 
     /**

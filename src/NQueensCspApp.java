@@ -56,6 +56,7 @@ public class NQueensCspApp extends IntegrableApplication {
      * Defines state model.nqueen.view, parameters, and call-back functions and calls the
      * simulation pane builder to create layout and model.nqueen objects.
      */
+
     @Override
     public Pane createRootPane() {
         BorderPane root = new BorderPane();
@@ -140,15 +141,7 @@ public class NQueensCspApp extends IntegrableApplication {
         }
 
         solver=bSolver;
-        solver.addCspListener(stepCounter);
-        solver.addCspListener((csp, assign, var) -> {
-            if (assign.getVariables().size()!=0) {
-                updateStateView(getBoard(assign));
-                taskPaneCtrl.setText("Assignment evolved: "+assign.toString());
-            }else{
-                taskPaneCtrl.setText("       CSP evolved:  ***");
-            }
-        });
+
         stepCounter.reset();
         stateViewCtrl.update(new NQueensBoard(csp.getVariables().size()));
         taskPaneCtrl.setStatus("");
@@ -166,12 +159,22 @@ public class NQueensCspApp extends IntegrableApplication {
      * Starts the experiment.
      */
     public void startExperiment() {
-        double start = System.currentTimeMillis();
+
         StringBuilder stringBuilder=new StringBuilder();
+        solver.addCspListener(stepCounter);
+        solver.addCspListener((csp, assign, var) -> {
+            if (assign.getVariables().size()!=0) {
+                updateStateView(getBoard(assign));
+                taskPaneCtrl.setText("Assignment evolved: "+assign.toString());
+            }else{
+                taskPaneCtrl.setText("       CSP evolved:  ***");
+            }
+        });
         taskPaneCtrl.setText("<Simulation-Log>");
         taskPaneCtrl.setText("................................");
         Object choice = taskPaneCtrl.getParamValue(SOLUTION);
         Optional<Assignment<Variable, Integer>> solution;
+        double start = System.currentTimeMillis();
         if(choice.equals("Single")) {
             solution =bSolver.solve(csp);
         }
@@ -183,10 +186,10 @@ public class NQueensCspApp extends IntegrableApplication {
             NQueensBoard board = getBoard(solution.get());
             stateViewCtrl.update(board);
         }
-
+        double end = System.currentTimeMillis();
         taskPaneCtrl.setText("................................");
         taskPaneCtrl.setText("</Simulation-Log>\n");
-        double end = System.currentTimeMillis();
+
         stringBuilder.append("Algorithm Name \t\t= "+algorithmName+ "\n");
 
         if(choice.equals("All")) {
@@ -195,13 +198,13 @@ public class NQueensCspApp extends IntegrableApplication {
         }
 
         taskPaneCtrl.setText("Time to solve in second \t\t\t= " + (end - start) * 0.001 + " s");
-        stringBuilder.append("Time to solve in second       \t \t = " + (end - start) * 0.001 + " s"+ "\n");
+        //stringBuilder.append("Time to solve in second       \t \t = " + (end - start) * 0.001 + " s"+ "\n");
         taskPaneCtrl.setText("Number of backtracking occurs \t= " + bSolver.getNumberOfBacktrack() + " times");
-        stringBuilder.append("Number of backtracking occurs  \t = " + bSolver.getNumberOfBacktrack() + " times"+ "\n");
+        //stringBuilder.append("Number of backtracking occurs  \t = " + bSolver.getNumberOfBacktrack() + " times"+ "\n");
         taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + bSolver.getNumberOfNodesVisited() + " nodes");
-        stringBuilder.append("Number of nodes visited        \t\t = " + bSolver.getNumberOfNodesVisited() + " nodes"+ "\n");
+       // stringBuilder.append("Number of nodes visited        \t\t = " + bSolver.getNumberOfNodesVisited() + " nodes"+ "\n");
         taskPaneCtrl.setText("Number of nodes assigned\t\t= " + bSolver.getNumberOfNodesAssigned() + " nodes");
-        stringBuilder.append("Number of nodes assigned          \t = " + bSolver.getNumberOfNodesAssigned() + " nodes"+ "\n");
+        //stringBuilder.append("Number of nodes assigned          \t = " + bSolver.getNumberOfNodesAssigned() + " nodes"+ "\n");
         storeResult=new StoreResult(stringBuilder.toString());
         bSolver.clearAll();
     }
