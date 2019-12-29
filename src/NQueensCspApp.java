@@ -60,12 +60,9 @@ public class NQueensCspApp extends IntegrableApplication {
     @Override
     public Pane createRootPane() {
         BorderPane root = new BorderPane();
-
         StackPane stateView = new StackPane();
         stateViewCtrl = new NQueensViewCtrl(stateView);
-
         List<Parameter> params = createParameters();
-
         TaskExecutionPaneBuilder builder = new TaskExecutionPaneBuilder();
         builder.defineParameters(params);
         builder.defineStateView(stateView);
@@ -74,7 +71,6 @@ public class NQueensCspApp extends IntegrableApplication {
         taskPaneCtrl = builder.getResultFor(root);
         taskPaneCtrl.setParam(TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0);
         return root;
-
     }
 
     protected List<Parameter> createParameters() {
@@ -143,7 +139,7 @@ public class NQueensCspApp extends IntegrableApplication {
         solver=bSolver;
 
         stepCounter.reset();
-        stateViewCtrl.update(new NQueensBoard(csp.getVariables().size()));
+        stateViewCtrl.update(new NQueensBoard(csp.getVariables().size(), NQueensBoard.Config.QUEEN_IN_EVERY_COL));
         taskPaneCtrl.setStatus("");
         taskPaneCtrl.textArea.clear();
         bSolver.clearAll();

@@ -86,7 +86,7 @@ public class TaskExecutionPaneCtrl {
 		executeBtn.setOnMouseClicked(ev -> {
 			if (ev.getButton() == MouseButton.SECONDARY) {
 				if (getParamAsInt(PARAM_EXEC_SPEED) == Integer.MAX_VALUE)
-					setParamValue(PARAM_EXEC_SPEED, 0);
+					setParamValue(PARAM_EXEC_SPEED, 1);
 				else
 					setParamValue(PARAM_EXEC_SPEED, Integer.MAX_VALUE);
 			}

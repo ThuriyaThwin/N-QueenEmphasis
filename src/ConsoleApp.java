@@ -23,11 +23,10 @@ public class ConsoleApp {
         BufferedWriter log = new BufferedWriter(new OutputStreamWriter(System.out));
       //  Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
         //Runtime runtime = Runtime.getRuntime();//for memory
-        double start = System.currentTimeMillis();
+
         FlexibleBacktrackingSolver bts=new FlexibleBacktrackingSolver();
-        bts.set(new AC3Strategy());
 
-
+        double start = System.currentTimeMillis();
         bts.addCspListener(new CspListener() {
             @Override
             public void stateChanged(CSP csp, Assignment assignment, Variable variable) {

@@ -13,7 +13,7 @@ public class Main {
     public static void main(String args[]) throws Exception {
       //  Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
         double start = System.currentTimeMillis();
-        Problem p=new Problem(4);
+        Problem p=new Problem(28);
         CBJ a = new CBJ(p);
         a.bcssp();//Like a.solve()*/
         double end = System.currentTimeMillis();

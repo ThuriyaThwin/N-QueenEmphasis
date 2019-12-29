@@ -6,6 +6,7 @@ import engine.csp.CSP;
 import engine.csp.CspSolver;
 import engine.csp.Variable;
 import engine.csp.inference.InferenceLog;
+import util.FinalCounter;
 import util.Tasks;
 
 import javax.swing.*;
@@ -52,11 +53,11 @@ import java.util.Optional;
  */
 public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> extends CspSolver<VAR, VAL> {
     private int numberOfBacktrack = 0;
+    private int test=0;
     private int numberOfNodesVisited = 0;
     private int numberOfNodesAssigned = 0;
     static int count = 0;
     boolean solveAll = false;
-
     /**
      * Applies a recursive backtracking search to solve the CSP.
      */
@@ -86,6 +87,12 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
         } else {
             // var <- SELECT-UNASSIGNED-VARIABLE(assignment, csp)
             VAR var = selectUnassignedVariable(csp, assignment);
+
+              if(test==0) {// For desired user input
+                  var = csp.getVariables().get(2);
+                  test++;
+              }
+
             // for each value in ORDER-DOMAIN-VALUES(var, assignment, csp) do
             for (VAL value : orderDomainValues(csp, assignment, var)) {
                 // if value is consistent with assignment then
@@ -164,6 +171,7 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
         this.numberOfNodesAssigned = 0;
         this.numberOfNodesVisited = 0;
         this.numberOfBacktrack = 0;
+        test=0;
         this.count = 0;
     }
 }

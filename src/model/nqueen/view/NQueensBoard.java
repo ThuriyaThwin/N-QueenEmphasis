@@ -53,8 +53,7 @@ public class NQueensBoard {
                 addQueenAt(new XYLocation(i, 0));
         } else if (config == Config.QUEEN_IN_EVERY_COL) {
             Random r = new Random();
-            for (int i = 0; i < size; i++)
-                addQueenAt(new XYLocation(i, r.nextInt(size)));
+                addQueenAt(new XYLocation(r.nextInt(size), r.nextInt(size)));
         }
     }
 

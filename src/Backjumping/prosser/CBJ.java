@@ -34,7 +34,7 @@ public class CBJ extends Bcssp {
             consistant = false;
        // System.out.println("### Queen Piece "+(i+1));
             variable.add(i);
-         stringBuilder.append("Q"+(i+1)+"\n");
+      //   stringBuilder.append("Q"+(i+1)+"\n");
 
         int d_index = 0;
             while ((d_index < d) && (!consistant)) {
@@ -45,7 +45,7 @@ public class CBJ extends Bcssp {
                 }
                 v[i] = d_index;
                 //System.out.println("The Queen Movement :"+ (v[i]+1));
-                stringBuilder.append("The Queen Movement Q"+(i+1)+"="+ (v[i]+1)+"\n");
+            //    stringBuilder.append("The Queen Movement Q"+(i+1)+"="+ (v[i]+1)+"\n");
                 arrayList.add(i+" "+v[i]);
                 assignments++;
                 consistant = true;
