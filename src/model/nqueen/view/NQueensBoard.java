@@ -13,7 +13,7 @@ import java.util.Random;
  * placed (only one per square) and moved.
  */
 public class NQueensBoard {
-
+public static int y=0;
     /**
      * X---> increases left to right with zero based index Y increases top to
      * bottom with zero based index | | V
@@ -53,7 +53,8 @@ public class NQueensBoard {
                 addQueenAt(new XYLocation(i, 0));
         } else if (config == Config.QUEEN_IN_EVERY_COL) {
             Random r = new Random();
-                addQueenAt(new XYLocation(r.nextInt(size), r.nextInt(size)));
+                y=r.nextInt(size);
+                addQueenAt(new XYLocation(y,r.nextInt(size)));
         }
     }
 

@@ -6,6 +6,7 @@ import engine.csp.CSP;
 import engine.csp.CspSolver;
 import engine.csp.Variable;
 import engine.csp.inference.InferenceLog;
+import model.nqueen.view.NQueensBoard;
 import util.FinalCounter;
 import util.Tasks;
 
@@ -89,7 +90,7 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
             VAR var = selectUnassignedVariable(csp, assignment);
 
               if(test==0) {// For desired user input
-                  var = csp.getVariables().get(2);
+                  var = csp.getVariables().get(NQueensBoard.y);
                   test++;
               }
 
