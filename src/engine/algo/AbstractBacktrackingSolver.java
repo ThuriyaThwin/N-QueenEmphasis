@@ -1,6 +1,7 @@
 package engine.algo;
 
 
+import Backjumping.csp.Problem;
 import engine.csp.Assignment;
 import engine.csp.CSP;
 import engine.csp.CspSolver;
@@ -9,6 +10,7 @@ import engine.csp.inference.InferenceLog;
 import model.nqueen.view.NQueensBoard;
 import util.FinalCounter;
 import util.Tasks;
+import util.Util;
 
 import javax.swing.*;
 import java.util.Optional;
@@ -59,9 +61,11 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
     private int numberOfNodesAssigned = 0;
     static int count = 0;
     boolean solveAll = false;
+
     /**
      * Applies a recursive backtracking search to solve the CSP.
      */
+
     public Optional<Assignment<VAR, VAL>> solve(CSP<VAR, VAL> csp) {
         Assignment<VAR, VAL> result = backtrack(csp, new Assignment<>());
         this.solveAll = false;
@@ -76,6 +80,7 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
 
     // function BACKTRACK(assignment, csp) returns a solution, or failure
     private Assignment<VAR, VAL> backtrack(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment) {
+        Problem p=new Problem(csp.getVariables().size());
         Assignment<VAR, VAL> result = null;
         // if assignment is complete then return assignment
         if (assignment.isComplete(csp.getVariables()) || Tasks.currIsCancelled()) {
@@ -88,17 +93,19 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
         } else {
             // var <- SELECT-UNASSIGNED-VARIABLE(assignment, csp)
             VAR var = selectUnassignedVariable(csp, assignment);
-
+            //VAR var = Util.selectRandomlyFromList(csp.getVariables());//console random
               if(test==0) {// For desired user input
                   var = csp.getVariables().get(NQueensBoard.y);
                   test++;
               }
-
             // for each value in ORDER-DOMAIN-VALUES(var, assignment, csp) do
             for (VAL value : orderDomainValues(csp, assignment, var)) {
                 // if value is consistent with assignment then
                 assignment.add(var, value);
-                // add {var = value} to assignment
+               // System.out.println(var+" Domain  ="+csp.getDomain(var));
+              //  System.out.println(var+" Constraint ="+csp.getConstraints(var));
+
+                //add {var = value} to assignment
                 numberOfNodesVisited++;
                 fireStateChanged(csp, assignment, var);
                 if (assignment.isConsistent(csp.getConstraints(var))) {
@@ -107,7 +114,7 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
                     InferenceLog<VAR, VAL> log = inference(csp, assignment, var);
                     // if inferences != failure then
                     if (!log.isEmpty())
-                        fireStateChanged(csp, new Assignment<>(), var);
+                        fireStateChanged(csp,new Assignment<>(),var);
                     if (!log.inconsistencyFound()) {
                         result = backtrack(csp, assignment);
                         // if result != failure then
@@ -122,7 +129,6 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
                     log.undo(csp);
                 }
                 // remove {var = value} from assignment
-
                 assignment.remove(var);
             }
         }

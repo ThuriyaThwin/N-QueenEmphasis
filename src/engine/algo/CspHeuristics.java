@@ -50,10 +50,11 @@ public class CspHeuristics {
                     result.add(var);
                 }
             }
-            return result;
+          //  vars.sort(Comparator.comparing(var -> csp.getDomain(var).size()));
+
+            return vars;
         }
     }
-
 
     /**
      * Implements the least constraining value heuristic.

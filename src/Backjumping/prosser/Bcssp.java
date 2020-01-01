@@ -81,6 +81,7 @@ public abstract class Bcssp {
 
 		System.out.println(",CCs=" + problem.constraint_checks + ",Assigments=" + assignments);
 		*/
+        System.out.println(problem.constraint_checks);
         System.out.println("Number of nodes visited = " + (assignments + 1));
         return status;
     }

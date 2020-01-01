@@ -33,7 +33,7 @@ public class NQueensCSP extends CSP<Variable, Integer> {
 			Variable var1 = getVariables().get(i);
 			for (int j = i+1; j < size; j++) {
 				Variable var2 = getVariables().get(j);
-				addConstraint(new DiffNotEqualConstraint(var1, var2, 0));
+				//addConstraint(new DiffNotEqualConstraint(var1, var2, 0));
 				addConstraint(new DiffNotEqualConstraint(var1, var2, j-i));
 			}
 		}

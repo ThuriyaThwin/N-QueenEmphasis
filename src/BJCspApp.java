@@ -112,7 +112,6 @@ public class BJCspApp extends IntegrableApplication {
      */
 
     public void startExperiment() {
-
         double start = System.currentTimeMillis();
         board=new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.EMPTY);
         StringBuilder stringBuilder=new StringBuilder();

@@ -66,27 +66,15 @@ public class BackTrackingSolver<VAR extends Variable, VAL>  extends CspSolver<VA
         return result != null ? Optional.of(result) : Optional.empty();
     }
 
-    public Optional<Assignment<VAR, VAL>> solveAll(CSP<VAR,VAL> csp)
-    {
-        this.clearAll();
-        this.solveAll=true;
-        return this.solve(csp);
-    }
 
     private Assignment<VAR, VAL> backtrack(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment) {
         Assignment<VAR, VAL> result = null;
         if (assignment.isComplete(csp.getVariables()) || Tasks.currIsCancelled()) {
-            if(solveAll) {
-                // show a joption pane dialog using showMessageDialog
-                JOptionPane.showMessageDialog(new JFrame("Solution"), ++count + " Solution Found :" + assignment.toString());
-                count++;
-            }else {
                 result = assignment;
-            }
+
         } else {
             VAR var = VARIABLE(csp, assignment);
             for (VAL value : VALUE(csp, assignment, var)) {
-
                 assignment.add(var, value);
                 numberOfNodesVisited++;
                 fireStateChanged(csp, assignment, var);
@@ -98,9 +86,11 @@ public class BackTrackingSolver<VAR extends Variable, VAL>  extends CspSolver<VA
                         if(result==null ) {
                             numberOfBacktrack++;
                         }
+
                     }
                 assignment.remove(var);
                 }
+
             }
 
         return result;
@@ -112,10 +102,6 @@ public class BackTrackingSolver<VAR extends Variable, VAL>  extends CspSolver<VA
 
 
 
-    public int getNumberOfBacktrack()
-    {
-        return numberOfBacktrack;
-    }
 
     public int getNumberOfNodesVisited() {
         return numberOfNodesVisited+1;

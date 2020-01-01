@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="N-Queen Emphasis:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/N_Queen_Emphasis_jar</output-path>
-    <root id="archive" name="N-Queen Emphasis.jar">
-      <element id="module-output" name="NQueenEmphasis" />
-    </root>
-  </artifact>
-</component>
