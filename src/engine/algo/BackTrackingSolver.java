@@ -6,8 +6,6 @@ import engine.csp.CSP;
 import engine.csp.CspSolver;
 import engine.csp.Variable;
 import util.Tasks;
-
-import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
