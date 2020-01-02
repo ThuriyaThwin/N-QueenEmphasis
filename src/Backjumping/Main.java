@@ -14,8 +14,8 @@ public class Main {
     public static void main(String args[]) throws Exception {
       //  Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
         double start = System.currentTimeMillis();
-        Problem p=new Problem(17);
-        FC_Cbj a = new FC_Cbj(p);
+        Problem p=new Problem(20);
+        CBJ a = new CBJ(p);
         a.bcssp();//Like a.solve()*/
         double end = System.currentTimeMillis();
         System.out.println("Time to solve in second       = " + (end - start) * 0.001 + " s");

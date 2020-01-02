@@ -66,7 +66,6 @@ public class TaskExecutionPaneBuilder {
 			combo.getItems().addAll(param.getValueNames());
 			combo.getSelectionModel().select(param.getDefaultValueIndex());
 			combos.add(combo);
-			System.out.println(param.getName());
 		}
 
 		Button executeBtn = new Button();
@@ -126,7 +125,7 @@ public class TaskExecutionPaneBuilder {
 	protected Parameter createExecutionSpeedParam() {
 		Parameter result = new Parameter(TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 1, 100, 400, 800, Integer.MAX_VALUE);
 		result.setValueNames("VeryFast", "Fast", "Medium", "Slow", "Pause");
-		result.setDefaultValueIndex(2);
+		//result.setDefaultValueIndex(0);
 		return result;
 	}
 }

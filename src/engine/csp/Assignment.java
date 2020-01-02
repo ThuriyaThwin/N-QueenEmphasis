@@ -72,8 +72,8 @@ public class Assignment<VAR extends Variable, VAL> implements Cloneable {
 
 
         for (Constraint<VAR, VAL> cons : constraints) {
-            System.out.println("Assignment :"+this);
-            System.out.println("Constraint :"+cons+"\n..........................");
+         //   System.out.println("Assignment :"+this);
+          //  System.out.println("Constraint :"+cons+"\n..........................");
             if (!cons.isSatisfiedWith(this))
                 return false;
         }

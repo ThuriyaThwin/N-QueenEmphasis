@@ -44,7 +44,7 @@ public class DiffNotEqualConstraint implements Constraint<Variable, Integer> {
 
         try {
             if (Math.abs(value1 - value2) != diff && Math.abs(value1 - value2) != 0) {
-                System.out.println("Value " + value1 + " " + value2);
+              //  System.out.println("Value " + value1 + " " + value2);
                 bol=true;
             }
         } catch (Exception e) {

@@ -1,5 +1,7 @@
 package GenerateConstraint;
 
+import java.io.FileWriter;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,10 +9,12 @@ import java.util.Random;
 public class CSP {
 
 	List<Variable> lstVariable = null;
-	List<Constraint> lstConstraint = null;
+	StringBuilder stringBuilder=new StringBuilder();
 	int nbVariables;
 
-	public CSP(int n) {
+
+	public CSP(int n) throws Exception{
+		FileWriter fileWriter = new FileWriter("./constraint/"+100+".txt");
 		this.nbVariables = n;
 
 		List<Integer> domain = new ArrayList<Integer>();
@@ -30,7 +34,7 @@ public class CSP {
 			}
 		}
 
-		this.lstConstraint = new ArrayList<Constraint>();
+
 		for (int i = 1; i <= nbVariables; i++) {
 			for (int j = i + 1; j <= nbVariables; j++) {
 				Variable var1 = lstVariable.get(i - 1);
@@ -51,7 +55,7 @@ public class CSP {
 					}
 				}
 				constraint.setLstCouple(new ArrayList<CoupleValue>(lstCoupleTmp));
-				lstConstraint.add(constraint);
+				fileWriter.write(constraint.toString());
 			}
 		}
 
@@ -60,10 +64,13 @@ public class CSP {
 
 	@Override
 	public String toString() {
-		return  "Constraint ("+ lstConstraint.size() + ") =" + "\n" + lstConstraint;
+		return  "Constraint ("+ ") =" + "\n" + stringBuilder.toString();
 	}
 
-
+	public static void main(String[] args)throws Exception {
+		int n=100;
+		CSP csp = new CSP(n);
+	}
 
 
 }

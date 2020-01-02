@@ -67,7 +67,7 @@ public class BackTrackingSolver<VAR extends Variable, VAL>  extends CspSolver<VA
 
     private Assignment<VAR, VAL> backtrack(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment) {
         Assignment<VAR, VAL> result = null;
-        if (assignment.isComplete(csp.getVariables()) || Tasks.currIsCancelled()) {
+        if (assignment.isComplete(csp.getVariables())) {
                 result = assignment;
 
         } else {

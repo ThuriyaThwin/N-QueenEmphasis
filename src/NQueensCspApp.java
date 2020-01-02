@@ -33,7 +33,7 @@ public class NQueensCspApp extends IntegrableApplication {
     private final static String SOLUTION="solution =";
     private final static String PARAM_STRATEGY = "";
     private final static String PARAM_BOARD_SIZE = "b = ";
-
+    private final static String POSITION="position = ";
     private NQueensViewCtrl stateViewCtrl;
     private TaskExecutionPaneCtrl taskPaneCtrl;
     private CSP<Variable, Integer> csp;
@@ -83,8 +83,8 @@ public class NQueensCspApp extends IntegrableApplication {
         p2.setDefaultValueIndex(0);
 
         Parameter p3 = new Parameter(SOLUTION,"Single","All");
-
-        return Arrays.asList(p1, p2,p3);
+        Parameter p4 = new Parameter(POSITION,"Static","Random");
+        return Arrays.asList(p1, p2,p3,p4);
     }
 
     public void runAnotherApp(Class<? extends Application> BJCspApp) throws Exception {
@@ -137,9 +137,21 @@ public class NQueensCspApp extends IntegrableApplication {
         }
 
         solver=bSolver;
-
+        solver.addCspListener(stepCounter);
+        solver.addCspListener(
+                (csp, assign, var) -> {
+                    if (assign != null)
+                    {updateStateView(getBoard(assign));
+                     taskPaneCtrl.setText("Assignment Evolved ="+assign.toString());
+                     }
+                    });
         stepCounter.reset();
-        stateViewCtrl.update(new NQueensBoard(csp.getVariables().size(), NQueensBoard.Config.QUEEN_IN_EVERY_COL));
+        Object value = taskPaneCtrl.getParamValue(POSITION);
+        if(value.equals("Static"))
+            stateViewCtrl.update(new NQueensBoard(csp.getVariables().size()));// For initial update
+        else
+            stateViewCtrl.update(new NQueensBoard(csp.getVariables().size(), NQueensBoard.Config.QUEEN_IN_EVERY_COL));// For initial update
+
         taskPaneCtrl.setStatus("");
         taskPaneCtrl.textArea.clear();
         bSolver.clearAll();
@@ -147,6 +159,7 @@ public class NQueensCspApp extends IntegrableApplication {
 
     @Override
     public void finalize() {
+        taskPaneCtrl.cancelExecution();
 
     }
 
@@ -155,54 +168,10 @@ public class NQueensCspApp extends IntegrableApplication {
      * Starts the experiment.
      */
     public void startExperiment() {
-
-        StringBuilder stringBuilder=new StringBuilder();
-        solver.addCspListener(stepCounter);
-        solver.addCspListener((csp, assign, var) -> {
-            if (assign.getVariables().size()!=0) {
-                updateStateView(getBoard(assign));
-                taskPaneCtrl.setText("Assignment evolved: "+assign.toString());
-            }else{
-                taskPaneCtrl.setText("       CSP evolved:  ***");
-            }
-        });
-        taskPaneCtrl.setText("<Simulation-Log>");
-        taskPaneCtrl.setText("................................");
-        Object choice = taskPaneCtrl.getParamValue(SOLUTION);
-        Optional<Assignment<Variable, Integer>> solution;
         double start = System.currentTimeMillis();
-        if(choice.equals("Single")) {
-            solution =bSolver.solve(csp);
-        }
-        else {
-             solution=bSolver.solveAll(csp);
-        }
-
-        if (solution.isPresent()) {//?
-            NQueensBoard board = getBoard(solution.get());
-            stateViewCtrl.update(board);
-        }
+        solver.solve(csp);
         double end = System.currentTimeMillis();
-        taskPaneCtrl.setText("................................");
-        taskPaneCtrl.setText("</Simulation-Log>\n");
-
-        stringBuilder.append("Algorithm Name \t\t= "+algorithmName+ "\n");
-
-        if(choice.equals("All")) {
-            taskPaneCtrl.setText("The number of solution \t\t\t=" + bSolver.getNumberOfSolution());
-            stringBuilder.append("The number of solution =" + bSolver.getNumberOfSolution()+"\n");
-        }
-
-        taskPaneCtrl.setText("Time to solve in second \t\t\t= " + (end - start) * 0.001 + " s");
-        //stringBuilder.append("Time to solve in second       \t \t = " + (end - start) * 0.001 + " s"+ "\n");
-        taskPaneCtrl.setText("Number of backtracking occurs \t= " + bSolver.getNumberOfBacktrack() + " times");
-        //stringBuilder.append("Number of backtracking occurs  \t = " + bSolver.getNumberOfBacktrack() + " times"+ "\n");
-        taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + bSolver.getNumberOfNodesVisited() + " nodes");
-       // stringBuilder.append("Number of nodes visited        \t\t = " + bSolver.getNumberOfNodesVisited() + " nodes"+ "\n");
-        taskPaneCtrl.setText("Number of nodes assigned\t\t= " + bSolver.getNumberOfNodesAssigned() + " nodes");
-        //stringBuilder.append("Number of nodes assigned          \t = " + bSolver.getNumberOfNodesAssigned() + " nodes"+ "\n");
-        storeResult=new StoreResult(stringBuilder.toString());
-        bSolver.clearAll();
+        taskPaneCtrl.setText((end - start) * 0.001 + " s");
     }
 
     private NQueensBoard getBoard(Assignment<Variable, Integer> assignment) {

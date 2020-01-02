@@ -16,28 +16,26 @@ import java.io.OutputStreamWriter;
 public class ConsoleApp {
     public static void main(String args[]) throws IOException {
 
-        NQueensCSP csp=new NQueensCSP(17);
+        NQueensCSP csp=new NQueensCSP(8);
         BufferedWriter log = new BufferedWriter(new OutputStreamWriter(System.out));
       //  Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
         //Runtime runtime = Runtime.getRuntime();//for memory
-
         FlexibleBacktrackingSolver bts=new FlexibleBacktrackingSolver();
-        bts.set(CspHeuristics.mrv());
-        bts.set(new ForwardCheckingStrategy());
-       // bts.set(CspHeuristics.mrv());
-        double start = System.currentTimeMillis();
+        bts.set(new ForwardCheckingStrategy()).set(CspHeuristics.mrv());
         bts.addCspListener(new CspListener() {
             @Override
             public void stateChanged(CSP csp, Assignment assignment, Variable variable) {
                 try {
-                    log.write("Assignment Evolved :"+assignment+"\n");
+                 //   log.write("Assignment Evolved :"+assignment+"\n");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
-
+        double start = System.currentTimeMillis();
         log.write("\nThe solution is     = " + bts.solve(csp));
+        double end = System.currentTimeMillis();
+        System.out.println("\nTime to solve in second       = " + (end - start) * 0.001 + " s");
         log.flush();
        /* log.write("\nThe solution is     = " + bts.solve(csp));
         log.flush();
