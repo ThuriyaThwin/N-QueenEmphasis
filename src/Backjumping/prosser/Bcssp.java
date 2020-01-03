@@ -4,7 +4,6 @@ package Backjumping.prosser;
 import Backjumping.csp.Definitions;
 import Backjumping.csp.Problem;
 import Backjumping.util.stack.IntStack;
-
 import java.util.ArrayList;
 import java.util.StringJoiner;
 
@@ -56,7 +55,7 @@ public abstract class Bcssp {
     public Definitions.StatOptions bcssp() {
         Definitions.StatOptions status = Definitions.StatOptions.UNKNOWN;
         consistant = true;
-        int i = 0;
+        int i =0;
 
 
         while (status == Definitions.StatOptions.UNKNOWN) {
@@ -81,7 +80,6 @@ public abstract class Bcssp {
 
 		System.out.println(",CCs=" + problem.constraint_checks + ",Assigments=" + assignments);
 		*/
-        System.out.println(problem.constraint_checks);
         System.out.println("Number of nodes visited = " + (assignments + 1));
         return status;
     }
@@ -95,7 +93,6 @@ public abstract class Bcssp {
     public String printV() {
         StringJoiner sj = new StringJoiner(", ", "Assignment = { ", "}");
         for (int i = 0; i < problem.getN(); i++) {
-
             sj.add("<" + (i + 1) + "," + (v[i] + 1) + ">");
             aa.add(i + " " + v[i]);
         }

@@ -8,8 +8,6 @@ import engine.csp.CspListener;
 import engine.csp.Variable;
 import engine.csp.constraints.DiffNotEqualConstraint;
 import engine.csp.domain.Domain;
-import util.Timer;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -59,10 +57,9 @@ public class NQueensCSP extends CSP<Variable, Integer> {
 			}
 		});
 
-		Timer.tic();
+
 		assignment=backtrackingSolver.solve(nQueensCSP);
 		double end = System.nanoTime();
-		System.out.println("Time to solve in second       = " + Timer.toc()+ " s");
 		System.out.println("The Solution is :"+assignment.get());
 		//System.out.println(backtrackingSolver.getNumberOfNodesVisited());
 			System.out.println("Enter another? y/n");

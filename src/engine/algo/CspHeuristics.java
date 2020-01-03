@@ -51,7 +51,6 @@ public class CspHeuristics {
                 }
             }
           //  vars.sort(Comparator.comparing(var -> csp.getDomain(var).size()));
-            System.out.println(result.toString());
             return result;
         }
     }

@@ -9,13 +9,8 @@ public class CBJ extends Bcssp {
 
     private ValSet conf_set[];
     private ValSet current_domain[];
-    public static final StringBuilder stringBuilder=new StringBuilder();
     public static final ArrayList<String> arrayList=new ArrayList<>();
-    public static final ArrayList variable=new ArrayList();
-    public String get()
-    {
-        return stringBuilder.toString();
-    }
+
     public CBJ(Problem problem) {
         super(problem);
         current_domain = new ValSet[n];
@@ -28,14 +23,8 @@ public class CBJ extends Bcssp {
         }
     }
 
-
-
         public int label(int i) {
             consistant = false;
-       // System.out.println("### Queen Piece "+(i+1));
-            variable.add(i);
-      //   stringBuilder.append("Q"+(i+1)+"\n");
-
         int d_index = 0;
             while ((d_index < d) && (!consistant)) {
 
@@ -44,9 +33,7 @@ public class CBJ extends Bcssp {
                     continue;
                 }
                 v[i] = d_index;
-                //System.out.println("The Queen Movement :"+ (v[i]+1));
-            //    stringBuilder.append("The Queen Movement Q"+(i+1)+"="+ (v[i]+1)+"\n");
-                arrayList.add(i+" "+v[i]);
+             //   arrayList.add(i+" "+v[i]);
                 assignments++;
                 consistant = true;
 
@@ -66,9 +53,6 @@ public class CBJ extends Bcssp {
 
                 d_index++;
             }
-           // System.out.println("The placement :"+(v[i]+1)+"\n");
-            /*a.append("\n");*/
-            stringBuilder.append("\n");
             if (consistant)
                 return (i + 1);
             else
@@ -78,24 +62,19 @@ public class CBJ extends Bcssp {
 
     @Override
     public int unlabel(int i) {
-        stringBuilder.append("Backtracking occurs \n\n");
-        //arrayList.add("BT");
         int h;
         h = conf_set[i].get_max();
 
         if (h == -1) {
             return h;
         }
-
         conf_set[h].union(conf_set[i]);
         conf_set[i].remove(h);
         for (int j = h + 1; j <= i; j++) {
             conf_set[j].clear();
             current_domain[j].fill();
         }
-
         current_domain[h].remove(v[h]);
-
         consistant = (!current_domain[h].isEmpty());
         return h;
     }

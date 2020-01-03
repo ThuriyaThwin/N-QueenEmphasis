@@ -1,17 +1,13 @@
 package engine.algo;
 
 
-import Backjumping.csp.Problem;
+
 import engine.csp.Assignment;
 import engine.csp.CSP;
 import engine.csp.CspSolver;
 import engine.csp.Variable;
 import engine.csp.inference.InferenceLog;
-import model.nqueen.view.NQueensBoard;
-import util.FinalCounter;
 import util.Tasks;
-import util.Util;
-
 import javax.swing.*;
 import java.util.Optional;
 
@@ -80,7 +76,6 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
 
     // function BACKTRACK(assignment, csp) returns a solution, or failure
     private Assignment<VAR, VAL> backtrack(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment) {
-        Problem p=new Problem(csp.getVariables().size());
         Assignment<VAR, VAL> result = null;
         // if assignment is complete then return assignment
         if (assignment.isComplete(csp.getVariables()) || Tasks.currIsCancelled()) {
@@ -93,9 +88,10 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
         } else {
             // var <- SELECT-UNASSIGNED-VARIABLE(assignment, csp)
             VAR var = selectUnassignedVariable(csp, assignment);
+
             //VAR var = Util.selectRandomlyFromList(csp.getVariables());//console random
               if(test==0) {// For desired user input
-                  var = csp.getVariables().get(NQueensBoard.y);
+                  var = csp.getVariables().get(1);
                   test++;
               }
             // for each value in ORDER-DOMAIN-VALUES(var, assignment, csp) do

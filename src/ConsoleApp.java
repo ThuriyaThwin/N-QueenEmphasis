@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 public class ConsoleApp {
     public static void main(String args[]) throws IOException {
 
-        NQueensCSP csp=new NQueensCSP(8);
+        NQueensCSP csp=new NQueensCSP(4);
         BufferedWriter log = new BufferedWriter(new OutputStreamWriter(System.out));
       //  Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
         //Runtime runtime = Runtime.getRuntime();//for memory
@@ -26,16 +26,16 @@ public class ConsoleApp {
             @Override
             public void stateChanged(CSP csp, Assignment assignment, Variable variable) {
                 try {
-                 //   log.write("Assignment Evolved :"+assignment+"\n");
+                   log.write("Assignment Evolved :"+assignment+"\n");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
         double start = System.currentTimeMillis();
-        log.write("\nThe solution is     = " + bts.solve(csp));
+        log.write("\nThe solution is     = " + bts.solve(csp).get());
         double end = System.currentTimeMillis();
-        System.out.println("\nTime to solve in second       = " + (end - start) * 0.001 + " s");
+        log.write("\nTime to solve in second       = " + (end - start) * 0.001 + " s");
         log.flush();
        /* log.write("\nThe solution is     = " + bts.solve(csp));
         log.flush();
@@ -49,7 +49,5 @@ public class ConsoleApp {
         {
             System.out.println(csp.getConstraints(csp.getVariables().get(i)).toString());
         }*/
-        System.out.println(DiffNotEqualConstraint.constraintcheck-DiffNotEqualConstraint.overcheck);
-     // System.out.println("Used Memory                   = " + ((runtime.totalMemory() - runtime.freeMemory())) / (double) 1000000 + " mb");
     }
 }

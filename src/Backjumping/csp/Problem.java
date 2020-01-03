@@ -1,10 +1,6 @@
 package Backjumping.csp;
 /* hello world this is a test mark */
-
-
-
 import Backjumping.util.stack.IntStack;
-
 import java.io.PrintStream;
 import java.io.Serializable;
 

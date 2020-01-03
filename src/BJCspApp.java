@@ -13,9 +13,7 @@ import model.nqueen.TaskExecutionPaneBuilder;
 import model.nqueen.TaskExecutionPaneCtrl;
 import model.nqueen.view.NQueensBoard;
 import model.nqueen.view.Parameter;
-import util.StoreResult;
 import util.XYLocation;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,10 +33,9 @@ public class BJCspApp extends IntegrableApplication {
     private final static String PARAM_BOARD_SIZE = "b = ";
     private NQueensViewCtrl stateViewCtrl;
     private TaskExecutionPaneCtrl taskPaneCtrl;
-    FlexibleBacktrackingSolver<Variable, Integer> bSolver=new FlexibleBacktrackingSolver<>();
+
     public static String size;
     NQueensBoard board;
-    public StoreResult storeResult=new StoreResult();
 
 
     @Override
@@ -92,18 +89,17 @@ public class BJCspApp extends IntegrableApplication {
     @Override
     public void initialize() {
 
-        stateViewCtrl.update(new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.EMPTY));
+        stateViewCtrl.update(new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.QUEEN_IN_EVERY_COL));
        // updateStateView(getBoard());//Board Size gives static pic.
         taskPaneCtrl.setStatus("");
         taskPaneCtrl.textArea.clear();
-        bSolver.clearAll();
         System.gc();
-        Bcssp.aa.clear();
 
     }
 
     @Override
     public void finalize() {
+        taskPaneCtrl.cancelExecution();
         board.clear();
     }
 
@@ -112,18 +108,14 @@ public class BJCspApp extends IntegrableApplication {
      */
 
     public void startExperiment() {
+
         double start = System.currentTimeMillis();
-        board=new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.EMPTY);
+        board=new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.QUEEN_IN_EVERY_COL);
         StringBuilder stringBuilder=new StringBuilder();
         CBJ a=new CBJ(new Problem(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE)));
         a.bcssp();
         String soulution=a.printV();
         NQueensBoard board=getBoard();
-        taskPaneCtrl.setText("<Simulation-Log>\n");
-        taskPaneCtrl.setText("................................");
-        taskPaneCtrl.setText(a.get());
-        taskPaneCtrl.setText("................................");
-        taskPaneCtrl.setText("</Simulation-Log>\n");
         taskPaneCtrl.setText("The solution is :"+soulution+"\n");
         taskPaneCtrl.setText(board.getBoardPic());
         double end = System.currentTimeMillis();
@@ -132,8 +124,6 @@ public class BJCspApp extends IntegrableApplication {
         stringBuilder.append("Time to solve in second       \t \t= " + (end - start) * 0.001 + " s"+ "\n");
         taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + (Bcssp.assignments+1) + " nodes");
         stringBuilder.append("Number of nodes visited\t\t= " + (Bcssp.assignments+1) + " nodes"+"\n");
-        storeResult=new StoreResult(stringBuilder.toString());
-        bSolver.clearAll();
         Bcssp.aa.clear();
         System.gc();
         CBJ.arrayList.clear();
@@ -141,7 +131,6 @@ public class BJCspApp extends IntegrableApplication {
 
 
     private NQueensBoard getBoard() {
-        /*int size=taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE);*/
         int size=board.getSize();
         NQueensBoard board = new NQueensBoard(size, NQueensBoard.Config.EMPTY);
 
@@ -152,26 +141,14 @@ public class BJCspApp extends IntegrableApplication {
                 int col = Integer.parseInt(a[0]);
                 int row = Integer.parseInt(a[1]);
                     board.moveQueenTo(new XYLocation(col,row));
+                    col+=1;row+=1;
+                    taskPaneCtrl.setText("Queen Movement ="+"("+col+","+row+")");
                    // board.addQueenAt(new XYLocation(col, row));
             updateStateView(board);
         }
         return board;
     }
 
-    /*private NQueensBoard getBoard() {
-        int size=taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE);
-        NQueensBoard board = new NQueensBoard(size, NQueensBoard.Config.EMPTY);
-
-
-        for (int index = 0; index< CBJ.arrayList.size(); index++) {
-            String st=CBJ.arrayList.get(index);
-            String[] a =st.split(" ");
-            int col=Integer.parseInt(a[0]);
-            int row=Integer.parseInt(a[1]);
-            board.addQueenAt(new XYLocation(col, row));
-        }
-        return board;
-    }*/
 
     /**
      * Caution: While the background thread should be slowed down, updates of
