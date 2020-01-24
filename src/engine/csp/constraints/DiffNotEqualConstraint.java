@@ -9,19 +9,19 @@ import java.util.List;
 
 /**
  * Represents a binary constraint which forbids equal values.
- *
  */
 public class DiffNotEqualConstraint implements Constraint<Variable, Integer> {
 
+    public static int constraintcheck;
+    public static int overcheck;
+    Integer value1;
+    Integer value2;
     private Variable var1;
     private Variable var2;
     private int diff;
     private List<Variable> scope;
     private boolean bol;
-    public static int constraintcheck;
-    public static int overcheck;
-    Integer value1;
-    Integer value2;
+
     public DiffNotEqualConstraint(Variable var1, Variable var2, int diff) {
         this.var1 = var1;
         this.var2 = var2;
@@ -44,8 +44,8 @@ public class DiffNotEqualConstraint implements Constraint<Variable, Integer> {
 
         try {
             if (Math.abs(value1 - value2) != diff && Math.abs(value1 - value2) != 0) {
-              //  System.out.println("Value " + value1 + " " + value2);
-                bol=true;
+                //  System.out.println("Value " + value1 + " " + value2);
+                bol = true;
             }
         } catch (Exception e) {
             overcheck++;
@@ -62,18 +62,19 @@ public class DiffNotEqualConstraint implements Constraint<Variable, Integer> {
         try {
             if (Math.abs(value1 - value2) != diff && Math.abs(value1 - value2) != 0) {
                 System.out.println("Value " + value1 + " " + value2);
-                bol=true;
+                bol = true;
             }
         } catch (Exception e) {
             overcheck++;
         }
         return (value1 == null || value2 == null || Math.abs(value1 - value2) != diff && Math.abs(value1 - value2) != 0);
     }
+
     @Override
     public String toString() {
         StringBuilder sbl = new StringBuilder();
         sbl.append("AD(");
-        for (Variable variable: scope.subList(0, scope.size() - 1)) {
+        for (Variable variable : scope.subList(0, scope.size() - 1)) {
             sbl.append(variable.toString()).append(", ");
         }
         sbl.append(scope.get(scope.size() - 1)).append(")");

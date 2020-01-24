@@ -1,0 +1,190 @@
+package simulation;
+
+import engine.algo.CspHeuristics;
+import engine.algo.FlexibleBacktrackingSolver;
+import engine.csp.*;
+import engine.csp.inference.AC3Strategy;
+import engine.csp.inference.ForwardCheckingStrategy;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import nqueens.*;
+import nqueens.view.NQueensBoard;
+import nqueens.view.Parameter;
+import util.StoreResult;
+import util.XYLocation;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Integrable application which demonstrates how different CSP solution
+ * strategies solve the N-Queens problem.
+ **/
+
+public class Backtrack extends IntegrableApplication {
+
+    private final static String SOLUTION="solution =";
+    private final static String PARAM_STRATEGY = "";
+    private final static String PARAM_BOARD_SIZE = "b = ";
+    private final static String POSITION="position = ";
+    private NQueensViewCtrl stateViewCtrl;
+    private TaskExecutionPaneCtrl taskPaneCtrl;
+    private CSP<Variable, Integer> csp;
+    private CspSolver<Variable, Integer> solver;
+    private CspListener.StepCounter<Variable, Integer> stepCounter = new CspListener.StepCounter<>();
+    FlexibleBacktrackingSolver<Variable, Integer> bSolver=new FlexibleBacktrackingSolver<>();
+
+    public static String size;
+
+
+    public StoreResult storeResult=new StoreResult();
+    private String algorithmName;
+
+    @Override
+    public String getTitle() {
+        return "N-Queens CSP";
+    }
+
+    /**
+     * Defines state model.nqueen.view, parameters, and call-back functions and calls the
+     * simulation pane builder to create layout and model.nqueen objects.
+     */
+
+    @Override
+    public Pane createRootPane() {
+        BorderPane root = new BorderPane();
+        StackPane stateView = new StackPane();
+        stateViewCtrl = new NQueensViewCtrl(stateView);
+        List<Parameter> params = createParameters();
+        TaskExecutionPaneBuilder builder = new TaskExecutionPaneBuilder();
+        builder.defineParameters(params);
+        builder.defineStateView(stateView);
+        builder.defineInitMethod(this::initialize);
+        builder.defineTaskMethod(this::startExperiment);
+        taskPaneCtrl = builder.getResultFor(root);
+        taskPaneCtrl.setParam(TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 0);
+        return root;
+    }
+
+    protected List<Parameter> createParameters() {
+        Parameter p1 = new Parameter(PARAM_STRATEGY, "BT","FC", "AC3-FC", "MAC-3", "FC-MRV","FC-LCV");
+        Object[] arr = new Object[97];
+        for (int i = 0; i < 97; i++) {
+            arr[i] = i + 4;
+        }
+        Parameter p2 = new Parameter(PARAM_BOARD_SIZE, arr);
+        p2.setDefaultValueIndex(0);
+
+        Parameter p3 = new Parameter(SOLUTION,"Single","All");
+        Parameter p4 = new Parameter(POSITION,"Static","Random");
+        return Arrays.asList(p1, p2,p3,p4);
+    }
+
+
+    /**
+     * Displays the initialized board on the state model.nqueen.view.
+     */
+    @Override
+    public void initialize() {
+
+        csp = new NQueensCSP(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE));
+
+        Object strategy = taskPaneCtrl.getParamValue(PARAM_STRATEGY);
+        algorithmName=(String)strategy;
+
+        if (strategy.equals("BT")) {
+            bSolver=new FlexibleBacktrackingSolver<>();
+        }
+        else if(strategy.equals("FC"))
+        {
+            bSolver=new FlexibleBacktrackingSolver<>();
+            bSolver.set(new ForwardCheckingStrategy<>());
+        }else if(strategy.equals("AC3-FC"))
+        {
+            bSolver=new FlexibleBacktrackingSolver<>();
+            bSolver.set(new AC3Strategy<>()).set(new ForwardCheckingStrategy<>());
+        }else if(strategy.equals("MAC-3"))
+        {
+            bSolver=new FlexibleBacktrackingSolver<>();
+            bSolver.set(new AC3Strategy<>());
+        }else if(strategy.equals("FC-MRV"))
+        {
+            bSolver=new FlexibleBacktrackingSolver<>();
+            bSolver.set(new ForwardCheckingStrategy<>()).set(CspHeuristics.mrv());
+        }else if(strategy.equals("FC-LCV"))
+        {
+            bSolver=new FlexibleBacktrackingSolver<>();
+            bSolver.set(new ForwardCheckingStrategy<>()).set(CspHeuristics.lcv());
+        }
+
+        solver=bSolver;
+        solver.addCspListener(stepCounter);
+        solver.addCspListener(
+                (csp, assign, var) -> {
+                    if (assign != null)
+                    {updateStateView(getBoard(assign));
+                     taskPaneCtrl.setText("Assignment Evolved ="+assign.toString());
+                     }
+                    });
+        stepCounter.reset();
+        Object value = taskPaneCtrl.getParamValue(POSITION);
+        if(value.equals("Static"))
+            stateViewCtrl.update(new NQueensBoard(csp.getVariables().size()));// For initial update
+        else
+            stateViewCtrl.update(new NQueensBoard(csp.getVariables().size(), NQueensBoard.Config.QUEEN_IN_EVERY_COL));// For initial update
+        Task<Void> task = new Task<Void>() {
+            public Void call() {
+                solver.solve(csp);
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> {
+        });
+        taskPaneCtrl.setStatus("");
+        taskPaneCtrl.textArea.clear();
+        bSolver.clearAll();
+    }
+
+    @Override
+    public void finalize() {
+        taskPaneCtrl.cancelExecution();
+
+    }
+
+
+    /**
+     * Starts the experiment.
+     */
+    public void startExperiment() {
+        solver.solve(csp);
+        taskPaneCtrl.setText(bSolver.getTime() + " s");
+    }
+
+
+    private NQueensBoard getBoard(Assignment<Variable, Integer> assignment) {
+        NQueensBoard board = new NQueensBoard(csp.getVariables().size());
+        for (Variable var : assignment.getVariables()) {
+            int col = Integer.parseInt(var.getName().substring(1)) - 1;
+            int row = assignment.getValue(var) - 1;
+            board.addQueenAt(new XYLocation(col, row));
+        }
+        return board;
+    }
+
+    /**
+     * Caution: While the background thread should be slowed down, updates of
+     * the GUI have to be done in the GUI thread!
+     */
+
+    private void updateStateView(NQueensBoard board) {
+
+        Platform.runLater(() -> {
+            //if you need to update a GUI component from a non-GUI thread,you can use that to put your update in a queue
+            stateViewCtrl.update(board);
+            taskPaneCtrl.setStatus(stepCounter.getResults().toString());
+        });
+        taskPaneCtrl.waitAfterStep();
+    }
+}

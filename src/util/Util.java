@@ -237,8 +237,7 @@ public class Util {
         return lowerLimit + ((upperLimit - lowerLimit) * _r.nextDouble());
     }
 
-    public static String instruction()
-    {
+    public static String instruction() {
         return "1. Select a Puzzle level; Or click Blank, enter your own puzzle.\n\n2. Select a BK Strategy. The order between 1 and 2 is flexible. The max_steps for min conflicts defaults to 5,000.\n\n 3. Click Solve from Solve menu. During solving, task can be cancelled by clicking Cancel. The solution along with assignment counts, if found, will be shown on board.\n\n4. To solve another puzzle, click Blank, then go to 1.\n";
     }
 }

@@ -21,7 +21,6 @@ import java.util.List;
  *
  * @param <VAR> Type which is used to represent addVariable
  * @param <VAL> Type which is used to represent the values in the domains
- *
  */
 public class CSP<VAR extends Variable, VAL> implements Cloneable {
 
@@ -109,7 +108,7 @@ public class CSP<VAR extends Variable, VAL> implements Cloneable {
     }
 
     public void addConstraint(Constraint<VAR, VAL> constraint) {
-         constraints.add(constraint);
+        constraints.add(constraint);
         for (VAR var : constraint.getScope())
             cnet.get(var).add(constraint);
     }

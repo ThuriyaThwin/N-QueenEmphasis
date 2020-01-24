@@ -7,7 +7,6 @@ import engine.csp.Variable;
 
 /**
  * Defines a common interface for backtracking inference strategies.
- *
  */
 public interface InferenceStrategy<VAR extends Variable, VAL> {
 

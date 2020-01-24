@@ -13,13 +13,16 @@ import java.util.List;
  * <br>
  * <b>Note:</b> Implementations of this interface define the different kinds of
  * relations that engine.csp.constraints can represent.
- * 
  */
 
 public interface Constraint<VAR extends Variable, VAL> {
-	/** Returns a tuple of variables that participate in the constraint. */
-	List<VAR> getScope();
+    /**
+     * Returns a tuple of variables that participate in the constraint.
+     */
+    List<VAR> getScope();
 
-	/** Constrains the values that the variables can take on. */
-	boolean isSatisfiedWith(Assignment<VAR, VAL> assignment);
+    /**
+     * Constrains the values that the variables can take on.
+     */
+    boolean isSatisfiedWith(Assignment<VAR, VAL> assignment);
 }

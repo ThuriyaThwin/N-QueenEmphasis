@@ -2,7 +2,6 @@ package engine.csp;
 
 /**
  * A variable is a distinguishable object with a name.
- *
  */
 
 public class Variable {
@@ -20,14 +19,16 @@ public class Variable {
         return name;
     }
 
-    /** Variables with equal names are equal. */
+    /**
+     * Variables with equal names are equal.
+     */
     @Override
-    public  boolean equals(Object obj) {
+    public boolean equals(Object obj) {
         return obj instanceof Variable && this.name.equals(((Variable) obj).name);
     }
 
     @Override
-    public  int hashCode() {
+    public int hashCode() {
         return name.hashCode();
     }
 

@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-
 /**
  * This backtracking search implementation can be configured with arbitrary strategies for variable selection,
  * value ordering, and inference. These strategies are represented by objects implementing standard interfaces.
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
  *
  * @param <VAR> Type which is used to represent variables
  * @param <VAL> Type which is used to represent the values in the domains
- *
  */
 public class FlexibleBacktrackingSolver<VAR extends Variable, VAL> extends AbstractBacktrackingSolver<VAR, VAL> {
 
@@ -114,9 +112,7 @@ public class FlexibleBacktrackingSolver<VAR extends Variable, VAL> extends Abstr
     }
 
 
-
-    public void clearAll()
-    {
+    public void clearAll() {
         super.clearAll();
     }
 }

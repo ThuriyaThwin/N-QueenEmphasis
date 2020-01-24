@@ -9,11 +9,10 @@ import java.util.stream.Collectors;
 
 /**
  * An assignment assigns values to some or all variables of a CSP.
- *
  */
 
 public class Assignment<VAR extends Variable, VAL> implements Cloneable {
-    public static int count=0;
+    public static int count = 0;
     boolean[][] constraints[][];
     /**
      * Maps variables to their assigned values.
@@ -47,8 +46,8 @@ public class Assignment<VAR extends Variable, VAL> implements Cloneable {
      * <code>engine.csp.constraints</code>.
      */
     public void s(CSP csp) {
-        int n=csp.getVariables().size();
-          // contains for each pair of variables
+        int n = csp.getVariables().size();
+        // contains for each pair of variables
 
         for (int v1 = 0; v1 < n; v1++)
             for (int v2 = 0; v2 < n; v2++) {
@@ -72,8 +71,8 @@ public class Assignment<VAR extends Variable, VAL> implements Cloneable {
 
 
         for (Constraint<VAR, VAL> cons : constraints) {
-         //   System.out.println("Assignment :"+this);
-          //  System.out.println("Constraint :"+cons+"\n..........................");
+            //   System.out.println("Assignment :"+this);
+            //  System.out.println("Constraint :"+cons+"\n..........................");
             if (!cons.isSatisfiedWith(this))
                 return false;
         }

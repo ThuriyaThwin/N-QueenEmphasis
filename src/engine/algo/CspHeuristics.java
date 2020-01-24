@@ -8,7 +8,6 @@ import engine.csp.constraints.Constraint;
 import util.Pair;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +19,22 @@ import java.util.stream.Collectors;
 public class CspHeuristics {
 
 
+    public static <VAR extends Variable, VAL> VariableSelection<VAR, VAL> mrv() {
+        return new MrvHeuristic<>();
+    }
+
+    public static <VAR extends Variable, VAL> VariableSelection<VAR, VAL> deg() {
+        return new DegHeuristic<>();
+    }
+
+    public static <VAR extends Variable, VAL> VariableSelection<VAR, VAL> mrvDeg() {
+        return (csp, vars) -> new DegHeuristic<VAR, VAL>().apply(csp, new MrvHeuristic<VAR, VAL>().apply(csp, vars));
+    }
+
+    public static <VAR extends Variable, VAL> ValueSelection<VAR, VAL> lcv() {
+        return new LcvHeuristic<>();
+    }
+
     public interface VariableSelection<VAR extends Variable, VAL> {
         List<VAR> apply(CSP<VAR, VAL> csp, List<VAR> vars);
     }
@@ -28,20 +43,14 @@ public class CspHeuristics {
         List<VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var);
     }
 
-    public static <VAR extends Variable, VAL> VariableSelection<VAR, VAL> mrv() { return new MrvHeuristic<>(); }
-    public static <VAR extends Variable, VAL> VariableSelection<VAR, VAL> deg() { return new DegHeuristic<>(); }
-    public static <VAR extends Variable, VAL> VariableSelection<VAR, VAL> mrvDeg() {
-        return (csp, vars) -> new DegHeuristic<VAR, VAL>().apply(csp, new MrvHeuristic<VAR, VAL>().apply(csp, vars));
-    }
-
-    public static <VAR extends Variable, VAL> ValueSelection<VAR, VAL> lcv() { return new LcvHeuristic<>();}
-
     /**
      * Implements the minimum-remaining-values heuristic.
      */
     private static class MrvHeuristic<VAR extends Variable, VAL> implements VariableSelection<VAR, VAL> {
 
-        /** Returns variables from <code>vars</code> which are the best with respect to MRV. */
+        /**
+         * Returns variables from <code>vars</code> which are the best with respect to MRV.
+         */
         public List<VAR> apply(CSP<VAR, VAL> csp, List<VAR> vars) {
             List<VAR> result = new ArrayList<>();
             int mrv = Integer.MAX_VALUE;
@@ -59,12 +68,15 @@ public class CspHeuristics {
             return result;
         }
     }
+
     /**
      * Implements the degree heuristic. Constraints with arbitrary scope size are supported.
      */
     public static class DegHeuristic<VAR extends Variable, VAL> implements VariableSelection<VAR, VAL> {
 
-        /** Returns variables from <code>vars</code> which are the best with respect to DEG. */
+        /**
+         * Returns variables from <code>vars</code> which are the best with respect to DEG.
+         */
         public List<VAR> apply(CSP<VAR, VAL> csp, List<VAR> vars) {
             List<VAR> result = new ArrayList<>();
             int maxDegree = -1;
@@ -87,7 +99,9 @@ public class CspHeuristics {
      */
     private static class LcvHeuristic<VAR extends Variable, VAL> implements ValueSelection<VAR, VAL> {
 
-        /** Returns the values of Dom(var) in a special order. The least constraining value comes first. */
+        /**
+         * Returns the values of Dom(var) in a special order. The least constraining value comes first.
+         */
         public List<VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var) {
             List<Pair<VAL, Integer>> pairs = new ArrayList<>();
             for (VAL value : csp.getDomain(var)) {
