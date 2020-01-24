@@ -1,8 +1,6 @@
 package Backjumping.prosser;
-
 import Backjumping.csp.Problem;
 import Backjumping.csp.ValSet;
-
 import java.util.ArrayList;
 
 public class CBJ extends Bcssp {
@@ -14,18 +12,18 @@ public class CBJ extends Bcssp {
     public CBJ(Problem problem) {
         super(problem);
         current_domain = new ValSet[n];
-        v = new int[n];
+        v = new Integer[n];
         conf_set = new ValSet[n];
-        for (int i = 0; i < n; i++) {
+        for (Integer i = 0; i < n; i++) {
             conf_set[i] = new ValSet(n);
             current_domain[i] = new ValSet(d);
             current_domain[i].fill();
         }
     }
 
-        public int label(int i) {
+        public Integer label(Integer i) {
             consistant = false;
-        int d_index = 0;
+            Integer d_index = 0;
             while ((d_index < d) && (!consistant)) {
 
                 if (!current_domain[i].isMember(d_index)) {
@@ -33,11 +31,11 @@ public class CBJ extends Bcssp {
                     continue;
                 }
                 v[i] = d_index;
-             //   arrayList.add(i+" "+v[i]);
+                arrayList.add(i+" "+v[i]);
                 assignments++;
                 consistant = true;
 
-                int h;
+                Integer h;
 
                 for (h = 0; (h < i) && consistant; h++) {//The problem it always false
                     consistant = problem.check(i, v[i], h, v[h]);
@@ -61,8 +59,8 @@ public class CBJ extends Bcssp {
 
 
     @Override
-    public int unlabel(int i) {
-        int h;
+    public Integer unlabel(Integer i) {
+        Integer h;
         h = conf_set[i].get_max();
 
         if (h == -1) {
@@ -78,6 +76,7 @@ public class CBJ extends Bcssp {
         consistant = (!current_domain[h].isEmpty());
         return h;
     }
+
 
 
 }

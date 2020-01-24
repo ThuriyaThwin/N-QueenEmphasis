@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/NQueenEmphasis.iml" filepath="$PROJECT_DIR$/NQueenEmphasis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/N-QueenEmphasis.iml" filepath="$PROJECT_DIR$/.idea/N-QueenEmphasis.iml" />
     </modules>
   </component>
 </project>

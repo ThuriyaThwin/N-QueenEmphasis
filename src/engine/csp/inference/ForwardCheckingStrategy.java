@@ -5,7 +5,13 @@ import engine.csp.Assignment;
 import engine.csp.CSP;
 import engine.csp.Variable;
 import engine.csp.constraints.Constraint;
+import engine.csp.domain.Domain;
 import engine.csp.domain.DomainLog;
+import util.QueueFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * Implements forward checking. Constraints which are not binary are ignored here.
@@ -15,7 +21,8 @@ public class ForwardCheckingStrategy<VAR extends Variable, VAL> implements Infer
 
     /** The CSP is not changed at the beginning. */
     @Override
-    public InferenceLog apply(CSP csp) {
+    public InferenceLog apply(CSP csp)
+    {
         return InferenceLog.emptyLog();
     }
 
@@ -62,4 +69,5 @@ public class ForwardCheckingStrategy<VAR extends Variable, VAL> implements Infer
         }
         return revised;
     }
+
 }

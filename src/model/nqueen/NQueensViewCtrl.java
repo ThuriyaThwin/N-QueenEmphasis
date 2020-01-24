@@ -2,7 +2,9 @@ package model.nqueen;
 
 
 import javafx.beans.binding.Bindings;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -18,7 +20,7 @@ public class NQueensViewCtrl {
 
     private GridPane gridPane = new GridPane();
     private Polygon[] queens = new Polygon[0];
-
+    private FlowPane flowPane=new FlowPane();
     /**
      * Adds a grid pane to the provided pane and creates a model.nqueen class
      * instance which is responsible for queen symbol positioning on the grid.

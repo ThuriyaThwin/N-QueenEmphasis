@@ -17,9 +17,9 @@ import java.io.Serializable;
 public class Problem implements Serializable {
 
     static final long serialVersionUID = 42L;  // this is needed in order to save samples to disk
-    public int constraint_checks;  // number of constrain checks done
-    private int n;  // number of variable in problem
-    private int d;  // size of domain
+    public Integer constraint_checks;  // number of constrain checks done
+    private Integer n;  // number of variable in problem
+    private Integer d;  // size of domain
     // for each value in domain false of there is a constraint
     // true if there is not - in the case that the variables are not
     // constrained at all constraints[i][j] is null
@@ -30,8 +30,8 @@ public class Problem implements Serializable {
     // with the other variables (this is filled upon request
     // only when setup_conflict_count is called - and this happens the first time
     // get_conflicts is called
-    private int conflict_count[]; // for each variable it counts the number of constraints the variable has
-    private int conflict_count_for_val[][];  // for each 2 variables count the nuber of conflicts between them
+    private Integer conflict_count[]; // for each variable it counts the number of constraints the variable has
+    private Integer conflict_count_for_val[][];  // for each 2 variables count the nuber of conflicts between them
 
 
     /**
@@ -47,15 +47,15 @@ public class Problem implements Serializable {
      *
      * @param n
      */
-    public Problem(int n) {
-
+    public Problem(Integer n) {
+        
         init(n, n);
 
-        for (int v1 = 0; v1 < n; v1++)
-            for (int v2 = 0; v2 < n; v2++) {
+        for (Integer v1 = 0; v1 < n; v1++)
+            for (Integer v2 = 0; v2 < n; v2++) {
                 constraints[v1][v2] = new boolean[d][d];
-                for (int d1 = 0; d1 < d; d1++)
-                    for (int d2 = 0; d2 < d; d2++) {
+                for (Integer d1 = 0; d1 < d; d1++)
+                    for (Integer d2 = 0; d2 < d; d2++) {
                         if (d1 == d2)
                             constraints[v1][v2][d1][d2] = false;
                         else if ((d1 - v1) == (d2 - v2))
@@ -72,14 +72,14 @@ public class Problem implements Serializable {
     /**
      * @return n
      */
-    public int getN() {
+    public Integer getN() {
         return n;
     }
 
     /**
      * @return d
      */
-    public int getD() {
+    public Integer getD() {
         return d;
     }
 
@@ -170,7 +170,7 @@ public class Problem implements Serializable {
      * each access to constraints[v1][v2]... is counted as a constraint check
      */
     public void setup_conflict_count() {
-        conflict_count = new int[n];
+        conflict_count = new Integer[n];
 
         for (int v1 = 0; v1 < n; v1++)
             for (int v2 = 0; v2 < n; v2++) {
@@ -207,7 +207,7 @@ public class Problem implements Serializable {
      * value in the domain
      */
     public void setup_conflict_count_for_val() {
-        conflict_count_for_val = new int[n][d];
+        conflict_count_for_val = new Integer[n][d];
 
 
         for (int v1 = 0; v1 < n; v1++)

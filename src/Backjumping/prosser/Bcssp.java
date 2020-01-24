@@ -4,6 +4,8 @@ package Backjumping.prosser;
 import Backjumping.csp.Definitions;
 import Backjumping.csp.Problem;
 import Backjumping.util.stack.IntStack;
+import engine.csp.CspSolver;
+
 import java.util.ArrayList;
 import java.util.StringJoiner;
 
@@ -23,9 +25,9 @@ public abstract class Bcssp {
     public static int assignments = 0;  // how many assignments were made?
     protected boolean consistant; // consistant variable from algorithem
     protected Problem problem;    // the problem to solve
-    protected int v[];            // the assigment/solution vector
-    protected int n;  // these can be taken from problem but put here to simplify code
-    protected int d;
+    protected Integer v[];            // the assigment/solution vector
+    protected Integer n;  // these can be taken from problem but put here to simplify code
+    protected Integer d;
     public static final ArrayList aa=new ArrayList();
     // Init variables common to all implementations
     public Bcssp(Problem problem) {
@@ -35,10 +37,10 @@ public abstract class Bcssp {
         assignments = 0;
     }
 
-    public static int max_list(IntStack list) {
-        int result = -1;
-        for (int l = 0; l < list.size(); l++) {
-            int k = list.peek(l);
+    public static Integer max_list(IntStack list) {
+        Integer result = -1;
+        for (Integer l = 0; l < list.size(); l++) {
+            Integer k = list.peek(l);
             if (k > result)
                 result = k;
         }
@@ -46,16 +48,16 @@ public abstract class Bcssp {
         return result;
     }
 
-    // should be implemeted by the Algorithm classes
-    public abstract int label(int i);
+    // should be implemeted by the Simulation classes
+    public abstract Integer label(Integer i);
 
-    public abstract int unlabel(int i);
+    public abstract Integer unlabel(Integer i);
 
     // run the algorithm main loop
     public Definitions.StatOptions bcssp() {
         Definitions.StatOptions status = Definitions.StatOptions.UNKNOWN;
         consistant = true;
-        int i =0;
+        Integer i =0;
 
 
         while (status == Definitions.StatOptions.UNKNOWN) {
@@ -80,6 +82,7 @@ public abstract class Bcssp {
 
 		System.out.println(",CCs=" + problem.constraint_checks + ",Assigments=" + assignments);
 		*/
+
         System.out.println("Number of nodes visited = " + (assignments + 1));
         return status;
     }

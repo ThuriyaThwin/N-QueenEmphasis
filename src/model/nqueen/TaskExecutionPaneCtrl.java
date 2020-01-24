@@ -66,7 +66,6 @@ public class TaskExecutionPaneCtrl {
 			@Override
 			public void handle(ActionEvent event) {
 				setParamValue("b = ",boardsize.getText());
-				System.out.println(boardsize.getText());
 				paramCombos.get(1).getSelectionModel().select(Integer.parseInt(boardsize.getText())-4);
 				int size=Integer.parseInt(boardsize.getText());
 				if(size<4 || size>100)

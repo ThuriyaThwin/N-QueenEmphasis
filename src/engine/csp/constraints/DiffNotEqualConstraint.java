@@ -71,6 +71,17 @@ public class DiffNotEqualConstraint implements Constraint<Variable, Integer> {
     }
     @Override
     public String toString() {
-        return "[" + var1.getName() + " , " + var2.getName() + "]" + System.lineSeparator();
+        StringBuilder sbl = new StringBuilder();
+        sbl.append("AD(");
+        for (Variable variable: scope.subList(0, scope.size() - 1)) {
+            sbl.append(variable.toString()).append(", ");
+        }
+        sbl.append(scope.get(scope.size() - 1)).append(")");
+        return sbl.toString();
     }
+    /*
+    @Override
+    public String toString() {
+        return "[" + var1.getName() + " , " + var2.getName() + "]" + System.lineSeparator();
+    }*/
 }

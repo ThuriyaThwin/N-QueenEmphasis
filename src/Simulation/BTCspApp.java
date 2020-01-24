@@ -1,3 +1,5 @@
+package Simulation;
+
 import engine.algo.CspHeuristics;
 import engine.algo.FlexibleBacktrackingSolver;
 import engine.csp.*;
@@ -5,6 +7,7 @@ import engine.csp.inference.AC3Strategy;
 import engine.csp.inference.ForwardCheckingStrategy;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -14,21 +17,15 @@ import model.nqueen.view.NQueensBoard;
 import model.nqueen.view.Parameter;
 import util.StoreResult;
 import util.XYLocation;
-
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Integrable application which demonstrates how different CSP solution
  * strategies solve the N-Queens problem.
  **/
 
-public class NQueensCspApp extends IntegrableApplication {
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+public class BTCspApp extends IntegrableApplication {
 
     private final static String SOLUTION="solution =";
     private final static String PARAM_STRATEGY = "";
@@ -49,7 +46,7 @@ public class NQueensCspApp extends IntegrableApplication {
 
     @Override
     public String getTitle() {
-        return "N-Queens CSP App";
+        return "N-Queens CSP";
     }
 
     /**
@@ -74,7 +71,7 @@ public class NQueensCspApp extends IntegrableApplication {
     }
 
     protected List<Parameter> createParameters() {
-        Parameter p1 = new Parameter(PARAM_STRATEGY, "Choose Algorithms","BT","BJ","FC", "AC3-FC", "MAC-3", "FC-MRV","FC-LCV");
+        Parameter p1 = new Parameter(PARAM_STRATEGY, "BT","BJ","FC", "AC3-FC", "MAC-3", "FC-MRV","FC-LCV");
         Object[] arr = new Object[97];
         for (int i = 0; i < 97; i++) {
             arr[i] = i + 4;
@@ -98,6 +95,7 @@ public class NQueensCspApp extends IntegrableApplication {
      */
     @Override
     public void initialize() {
+
         csp = new NQueensCSP(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE));
 
         Object strategy = taskPaneCtrl.getParamValue(PARAM_STRATEGY);
@@ -151,7 +149,14 @@ public class NQueensCspApp extends IntegrableApplication {
             stateViewCtrl.update(new NQueensBoard(csp.getVariables().size()));// For initial update
         else
             stateViewCtrl.update(new NQueensBoard(csp.getVariables().size(), NQueensBoard.Config.QUEEN_IN_EVERY_COL));// For initial update
-
+        Task<Void> task = new Task<Void>() {
+            public Void call() {
+                solver.solve(csp);
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> {
+        });
         taskPaneCtrl.setStatus("");
         taskPaneCtrl.textArea.clear();
         bSolver.clearAll();
@@ -168,11 +173,10 @@ public class NQueensCspApp extends IntegrableApplication {
      * Starts the experiment.
      */
     public void startExperiment() {
-        double start = System.currentTimeMillis();
         solver.solve(csp);
-        double end = System.currentTimeMillis();
-        taskPaneCtrl.setText((end - start) * 0.001 + " s");
+        taskPaneCtrl.setText(bSolver.getTime() + " s");
     }
+
 
     private NQueensBoard getBoard(Assignment<Variable, Integer> assignment) {
         NQueensBoard board = new NQueensBoard(csp.getVariables().size());
@@ -190,7 +194,9 @@ public class NQueensCspApp extends IntegrableApplication {
      */
 
     private void updateStateView(NQueensBoard board) {
-        Platform.runLater(() -> { //if you need to update a GUI component from a non-GUI thread,you can use that to put your update in a queue
+
+        Platform.runLater(() -> {
+            //if you need to update a GUI component from a non-GUI thread,you can use that to put your update in a queue
             stateViewCtrl.update(board);
             taskPaneCtrl.setStatus(stepCounter.getResults().toString());
         });

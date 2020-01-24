@@ -1,8 +1,8 @@
+package Simulation;
+
 import Backjumping.csp.Problem;
 import Backjumping.prosser.Bcssp;
 import Backjumping.prosser.CBJ;
-import engine.algo.FlexibleBacktrackingSolver;
-import engine.csp.Variable;
 import javafx.application.Platform;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -33,7 +33,6 @@ public class BJCspApp extends IntegrableApplication {
     private final static String PARAM_BOARD_SIZE = "b = ";
     private NQueensViewCtrl stateViewCtrl;
     private TaskExecutionPaneCtrl taskPaneCtrl;
-
     public static String size;
     NQueensBoard board;
 
@@ -110,7 +109,7 @@ public class BJCspApp extends IntegrableApplication {
     public void startExperiment() {
 
         double start = System.currentTimeMillis();
-        board=new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.QUEEN_IN_EVERY_COL);
+        board=new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.EMPTY);
         StringBuilder stringBuilder=new StringBuilder();
         CBJ a=new CBJ(new Problem(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE)));
         a.bcssp();
@@ -119,7 +118,7 @@ public class BJCspApp extends IntegrableApplication {
         taskPaneCtrl.setText("The solution is :"+soulution+"\n");
         taskPaneCtrl.setText(board.getBoardPic());
         double end = System.currentTimeMillis();
-        stringBuilder.append("Algorithm Name \t\t= "+"BJ"+ "\n");
+        stringBuilder.append("Simulation Name \t\t= "+"BJ"+ "\n");
         taskPaneCtrl.setText("Time to solve in second \t\t\t= " + (end - start) * 0.001 + " s");
         stringBuilder.append("Time to solve in second       \t \t= " + (end - start) * 0.001 + " s"+ "\n");
         taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + (Bcssp.assignments+1) + " nodes");
