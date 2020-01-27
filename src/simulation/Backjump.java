@@ -13,6 +13,7 @@ import nqueens.TaskExecutionPaneBuilder;
 import nqueens.TaskExecutionPaneCtrl;
 import nqueens.view.NQueensBoard;
 import nqueens.view.Parameter;
+import util.StoreResult;
 import util.XYLocation;
 
 import java.util.Arrays;
@@ -32,7 +33,7 @@ public class Backjump extends IntegrableApplication {
     NQueensBoard board;
     private NQueensViewCtrl stateViewCtrl;
     private TaskExecutionPaneCtrl taskPaneCtrl;
-
+    public StoreResult storeResult=new StoreResult();
     public static void main(String[] args) {
         launch(args);
     }
@@ -116,11 +117,12 @@ public class Backjump extends IntegrableApplication {
         taskPaneCtrl.setText("The solution is :" + soulution + "\n");
         taskPaneCtrl.setText(board.getBoardPic());
         double end = System.currentTimeMillis();
-        stringBuilder.append("simulation Name \t\t= " + "BJ" + "\n");
+        stringBuilder.append("Algorithm Name \t\t= " + "BJ" + "\n");
         taskPaneCtrl.setText("Time to solve in second \t\t\t= " + (end - start) * 0.001 + " s");
         stringBuilder.append("Time to solve in second       \t \t= " + (end - start) * 0.001 + " s" + "\n");
         taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + (Bcssp.assignments + 1) + " nodes");
         stringBuilder.append("Number of nodes visited\t\t= " + (Bcssp.assignments + 1) + " nodes" + "\n");
+        storeResult.addResult(stringBuilder.toString());
         Bcssp.aa.clear();
         System.gc();
         CBJ.arrayList.clear();

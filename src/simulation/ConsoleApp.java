@@ -14,8 +14,7 @@ import java.io.OutputStreamWriter;
 
 public class ConsoleApp {
     public static void main(String args[]) throws IOException {
-
-        NQueensCSP csp = new NQueensCSP(12);
+        NQueensCSP csp = new NQueensCSP(16);
         BufferedWriter log = new BufferedWriter(new OutputStreamWriter(System.out));
         //  Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
         //Runtime runtime = Runtime.getRuntime();//for memory

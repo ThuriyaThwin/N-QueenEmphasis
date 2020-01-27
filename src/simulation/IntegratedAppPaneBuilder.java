@@ -1,6 +1,4 @@
 package simulation;
-
-import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -17,8 +15,6 @@ import javafx.stage.Stage;
 import nqueens.IntegrableApplication;
 import util.Util;
 
-import java.util.Properties;
-
 /**
  * Builder for integrated applications. To create an integrated application,
  * just create a builder, define a title, register apps (integrable JavaFX
@@ -26,8 +22,6 @@ import java.util.Properties;
  * scene of a stage.
  */
 public class IntegratedAppPaneBuilder {
-
-    private static Properties properties = new Properties();
     private MenuBar menuBar = new MenuBar();
     private Menu appsMenu = new Menu("Simulate");
     private String title = "";
@@ -36,22 +30,25 @@ public class IntegratedAppPaneBuilder {
     public IntegratedAppPaneBuilder() {
         paneCtrl = new IntegratedAppPaneCtrl();
         final DoubleProperty scale = paneCtrl.scaleProperty();
-        MenuItem incScaleItem = new MenuItem("Inc Scale");
+        MenuItem incScaleItem = new MenuItem("View++");
         incScaleItem.setOnAction(ev -> scale.set(trunc(scale.get() * 1.3)));
         incScaleItem.setAccelerator(new KeyCodeCombination(KeyCode.PLUS, KeyCombination.CONTROL_ANY));
 
-        MenuItem decScaleItem = new MenuItem("Dec Scale");
+        MenuItem decScaleItem = new MenuItem("View--");
         decScaleItem.setOnAction(ev -> scale.set(trunc(scale.get() / 1.3)));
         decScaleItem.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN));
+
+        SeparatorMenuItem separator = new SeparatorMenuItem();
 
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setOnAction(ev -> Platform.exit());
 
         Menu fileMenu = new Menu("File");
-        fileMenu.getItems().addAll(incScaleItem, decScaleItem, exitItem);
+        fileMenu.getItems().addAll(incScaleItem, decScaleItem,separator,exitItem);
         menuBar.getMenus().addAll(fileMenu, appsMenu);// MenuBar
         menuBar.styleProperty().bind(Bindings.concat("-fx-font-size: ",
                 paneCtrl.scaleProperty().multiply(Font.getDefault().getSize()).asString()));
+
         // instruction menu
         Label label = new Label("Instruction");
         Menu menuInstruction = new Menu();

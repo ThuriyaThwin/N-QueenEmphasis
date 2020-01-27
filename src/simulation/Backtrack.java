@@ -1,5 +1,4 @@
 package simulation;
-
 import engine.algo.CspHeuristics;
 import engine.algo.FlexibleBacktrackingSolver;
 import engine.csp.*;
@@ -17,6 +16,7 @@ import util.StoreResult;
 import util.XYLocation;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Integrable application which demonstrates how different CSP solution
@@ -96,27 +96,33 @@ public class Backtrack extends IntegrableApplication {
 
         if (strategy.equals("BT")) {
             bSolver=new FlexibleBacktrackingSolver<>();
+            algorithmName="BT";
         }
         else if(strategy.equals("FC"))
         {
             bSolver=new FlexibleBacktrackingSolver<>();
             bSolver.set(new ForwardCheckingStrategy<>());
+            algorithmName="FC";
         }else if(strategy.equals("AC3-FC"))
         {
             bSolver=new FlexibleBacktrackingSolver<>();
             bSolver.set(new AC3Strategy<>()).set(new ForwardCheckingStrategy<>());
+            algorithmName="AC3-FC";
         }else if(strategy.equals("MAC-3"))
         {
             bSolver=new FlexibleBacktrackingSolver<>();
             bSolver.set(new AC3Strategy<>());
+            algorithmName="MAC-3";
         }else if(strategy.equals("FC-MRV"))
         {
             bSolver=new FlexibleBacktrackingSolver<>();
             bSolver.set(new ForwardCheckingStrategy<>()).set(CspHeuristics.mrv());
+            algorithmName="FC-MRV";
         }else if(strategy.equals("FC-LCV"))
         {
             bSolver=new FlexibleBacktrackingSolver<>();
             bSolver.set(new ForwardCheckingStrategy<>()).set(CspHeuristics.lcv());
+            algorithmName="FC-LCV";
         }
 
         solver=bSolver;
@@ -134,14 +140,9 @@ public class Backtrack extends IntegrableApplication {
             stateViewCtrl.update(new NQueensBoard(csp.getVariables().size()));// For initial update
         else
             stateViewCtrl.update(new NQueensBoard(csp.getVariables().size(), NQueensBoard.Config.QUEEN_IN_EVERY_COL));// For initial update
-        Task<Void> task = new Task<Void>() {
-            public Void call() {
-                solver.solve(csp);
-                return null;
-            }
-        };
-        task.setOnSucceeded(event -> {
-        });
+
+
+
         taskPaneCtrl.setStatus("");
         taskPaneCtrl.textArea.clear();
         bSolver.clearAll();
@@ -158,8 +159,33 @@ public class Backtrack extends IntegrableApplication {
      * Starts the experiment.
      */
     public void startExperiment() {
-        solver.solve(csp);
-        taskPaneCtrl.setText(bSolver.getTime() + " s");
+        StringBuilder stringBuilder=new StringBuilder();
+        taskPaneCtrl.setText("<Simulation-Log>");
+        taskPaneCtrl.setText("................................");
+        Object choice = taskPaneCtrl.getParamValue(SOLUTION);
+        Optional<Assignment<Variable, Integer>> solution;
+        if(choice.equals("Single")) {
+            solution =bSolver.solve(csp);
+        }
+        else {
+            solution=bSolver.solveAll(csp);
+        }
+        if (solution.isPresent()) {//?
+            NQueensBoard board = getBoard(solution.get());
+            stateViewCtrl.update(board);
+        }
+
+        taskPaneCtrl.setText("................................");
+        taskPaneCtrl.setText("</Simulation-Log>\n");
+
+        taskPaneCtrl.setText("Time to solve in second \t\t\t= "+bSolver.getTime() + " s");
+        stringBuilder.append("Algorithm Name \t\t=  " + algorithmName + "\n");
+        stringBuilder.append("Time to solve in second       \t \t = " + bSolver.getTime() + " s"+ "\n");
+
+        taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + bSolver.getNumberOfNodesVisited() + " nodes");
+        stringBuilder.append("Number of nodes visited        \t\t = " + bSolver.getNumberOfNodesVisited() + " nodes"+ "\n");
+
+        storeResult.addResult(stringBuilder.toString());
     }
 
 
