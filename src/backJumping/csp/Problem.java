@@ -1,9 +1,6 @@
 package backJumping.csp;
 /* hello world this is a test mark */
 
-import backJumping.util.stack.IntStack;
-
-import java.io.PrintStream;
 import java.io.Serializable;
 
 /**
@@ -11,11 +8,6 @@ import java.io.Serializable;
  * it contains the constraints table and other arrays with info needed by different heuristics
  */
 
-/**
- * Implements a CSP
- *
- * @author user
- */
 public class Problem implements Serializable {
 
     static final long serialVersionUID = 42L;  // this is needed in order to save samples to disk
@@ -32,10 +24,6 @@ public class Problem implements Serializable {
     // with the other variables (this is filled upon request
     // only when setup_conflict_count is called - and this happens the first time
     // get_conflicts is called
-    private Integer conflict_count[]; // for each variable it counts the number of constraints the variable has
-    private Integer conflict_count_for_val[][];  // for each 2 variables count the nuber of conflicts between them
-
-
     /**
      * create an instance of a problem with n variables and domain size d
      * @param n
@@ -127,121 +115,6 @@ public class Problem implements Serializable {
         return constraints[var1][var2][val1][val2];
     }
 
-
-    /**
-     * prints out the constrains (in a format similar to the examples we got)
-     *
-     * @param output
-     */
-
-    public void printProblem(PrintStream output) {
-        output.println("n is: " + n);
-        output.println("d is: " + d);
-
-        for (int v1 = 0; v1 < n; v1++)
-            for (int v2 = v1 + 1; v2 < n; v2++) {
-                if (constraints[v1][v2] != null) {
-                    output.print("\nVariables Pairs = ");
-                    output.println(v1 + "---" + v2 + ":");
-                    output.println("Conflicted Values ");
-                    for (int d1 = 0; d1 < d; d1++) {
-                        IntStack stack = new IntStack();
-                        for (int d2 = 0; d2 < d; d2++) {
-                            if (!constraints[v1][v2][d1][d2])
-                                stack.push(d2);
-                        }
-
-                        if (!stack.isEmpty()) {
-                            output.print("          " + d1 + ":[");
-                            output.print(stack.peek(0));
-                            for (int i = 1; i < stack.size(); i++) {
-                                output.print("," + stack.peek(i));
-                            }
-                            output.println("]");
-
-                        }
-                    }
-                }
-            }
-
-    }
-
-
-    /**
-     * creates an array where for each variable the number of conflicts is held
-     * each access to constraints[v1][v2]... is counted as a constraint check
-     */
-    public void setup_conflict_count() {
-        conflict_count = new Integer[n];
-
-        for (int v1 = 0; v1 < n; v1++)
-            for (int v2 = 0; v2 < n; v2++) {
-                // need to count constraint checks since this is what we are doing here
-                constraint_checks++;
-                if (constraints[v1][v2] == null)
-                    continue;
-                for (int d1 = 0; d1 < d; d1++)
-                    for (int d2 = 0; d2 < d; d2++) {
-                        if (!constraints[v1][v2][d1][d2]) {
-                            conflict_count[v1]++;
-                            conflict_count[v2]++;
-                        }
-                    }
-            }
-
-    }
-
-    /**
-     * @param i
-     * @return the number of conflicts variable i has
-     */
-    public int get_conflicts(int i) {
-        if (conflict_count == null)
-            setup_conflict_count();
-
-        constraint_checks++;
-        return conflict_count[i];
-
-    }
-
-    /**
-     * creates an array counting the number of conflicts that one variable has for each
-     * value in the domain
-     */
-    public void setup_conflict_count_for_val() {
-        conflict_count_for_val = new Integer[n][d];
-
-
-        for (int v1 = 0; v1 < n; v1++)
-            for (int v2 = 0; v2 < n; v2++) {
-                // need to count constraint checks since this is what we are doing here
-                constraint_checks++;
-                if (constraints[v1][v2] == null)
-                    continue;
-                for (int d1 = 0; d1 < d; d1++)
-                    for (int d2 = 0; d2 < d; d2++) {
-                        if (!constraints[v1][v2][d1][d2]) {
-                            conflict_count_for_val[v1][d1]++;
-                            conflict_count_for_val[v2][d2]++;
-                        }
-                    }
-            }
-
-    }
-
-    /**
-     * @param i
-     * @param v
-     * @return the number of conflicts variable i has for value v
-     */
-    public int get_conflicts_for_val(int i, int v) {
-        if (conflict_count_for_val == null)
-            setup_conflict_count_for_val();
-
-        constraint_checks++;
-        return conflict_count_for_val[i][v];
-
-    }
 
 }
 // comment

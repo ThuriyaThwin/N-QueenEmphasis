@@ -5,6 +5,7 @@ import engine.csp.constraints.Constraint;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 /**
@@ -115,16 +116,11 @@ public class Assignment<VAR extends Variable, VAL> implements Cloneable {
 
     @Override
     public String toString() {
-        boolean comma = false;
-        StringBuilder result = new StringBuilder("{");
+        StringJoiner sj = new StringJoiner(", ", "{", "}");
         for (Map.Entry<VAR, VAL> entry : variableToValueMap.entrySet()) {
-            if (comma)
-                result.append(", ");
-            result.append(entry.getKey()).append("=").append(entry.getValue());
-            comma = true;
+            sj.add(entry.getKey()+"="+entry.getValue());
         }
-        result.append("}");
-        return result.toString();
+        return sj.toString();
     }
 
 

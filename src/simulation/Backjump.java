@@ -14,6 +14,7 @@ import nqueens.TaskExecutionPaneCtrl;
 import nqueens.view.NQueensBoard;
 import nqueens.view.Parameter;
 import util.StoreResult;
+import util.Util;
 import util.XYLocation;
 
 import java.util.Arrays;
@@ -29,6 +30,7 @@ public class Backjump extends IntegrableApplication {
     private final static String SOLUTION = "solution =";
     private final static String PARAM_STRATEGY = "";
     private final static String PARAM_BOARD_SIZE = "b = ";
+    private final static String POSITION="position = ";
     public static String size;
     NQueensBoard board;
     private NQueensViewCtrl stateViewCtrl;
@@ -51,12 +53,9 @@ public class Backjump extends IntegrableApplication {
     @Override
     public Pane createRootPane() {
         BorderPane root = new BorderPane();
-
         StackPane stateView = new StackPane();
         stateViewCtrl = new NQueensViewCtrl(stateView);
-
         List<Parameter> params = createParameters();
-
         TaskExecutionPaneBuilder builder = new TaskExecutionPaneBuilder();
         builder.defineParameters(params);
         builder.defineStateView(stateView);
@@ -79,8 +78,8 @@ public class Backjump extends IntegrableApplication {
         p2.setDefaultValueIndex(0);
 
         Parameter p3 = new Parameter(SOLUTION, "Single");
-
-        return Arrays.asList(p1, p2, p3);
+        Parameter p4 = new Parameter(POSITION,"Static","Random");
+        return Arrays.asList(p1, p2, p3,p4);
     }
 
     /**
@@ -93,7 +92,14 @@ public class Backjump extends IntegrableApplication {
         // updateStateView(getBoard());//Board Size gives static pic.
         taskPaneCtrl.setStatus("");
         taskPaneCtrl.textArea.clear();
-        System.gc();
+        Object value = taskPaneCtrl.getParamValue(POSITION);
+        if(value.equals("Static")) {
+            Util.setposition(false);
+            stateViewCtrl.update(new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE)));// For initial update
+        }else {
+            Util.setposition(true);
+            stateViewCtrl.update(new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.QUEEN_IN_EVERY_COL));// For initial update
+        }
 
     }
 
@@ -131,7 +137,14 @@ public class Backjump extends IntegrableApplication {
 
     private NQueensBoard getBoard() {
         int size = board.getSize();
-        NQueensBoard board = new NQueensBoard(size, NQueensBoard.Config.EMPTY);
+            NQueensBoard board = new NQueensBoard(size, NQueensBoard.Config.EMPTY);
+            List<XYLocation> list=board.getQueenPositions();
+        Object value = taskPaneCtrl.getParamValue(POSITION);
+        if(!value.equals("Static")) {
+            //board.moveQueenTo(new XYLocation((NQueensBoard.y+1) ,NQueensBoard.x));
+            taskPaneCtrl.setText("Queen Movement =" + "(" + (NQueensBoard.y+1) + "," + NQueensBoard.x + ")");
+        }
+
         for (int index = 0; index < CBJ.arrayList.size(); index++) {
             String st = CBJ.arrayList.get(index).toString();
             String[] a = st.split(" ");

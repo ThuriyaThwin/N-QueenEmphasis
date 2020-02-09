@@ -13,6 +13,7 @@ import nqueens.*;
 import nqueens.view.NQueensBoard;
 import nqueens.view.Parameter;
 import util.StoreResult;
+import util.Util;
 import util.XYLocation;
 import java.util.Arrays;
 import java.util.List;
@@ -136,11 +137,13 @@ public class Backtrack extends IntegrableApplication {
                     });
         stepCounter.reset();
         Object value = taskPaneCtrl.getParamValue(POSITION);
-        if(value.equals("Static"))
+        if(value.equals("Static")) {
+            Util.setposition(false);
             stateViewCtrl.update(new NQueensBoard(csp.getVariables().size()));// For initial update
-        else
+        }else {
+            Util.setposition(true);
             stateViewCtrl.update(new NQueensBoard(csp.getVariables().size(), NQueensBoard.Config.QUEEN_IN_EVERY_COL));// For initial update
-
+        }
 
 
         taskPaneCtrl.setStatus("");

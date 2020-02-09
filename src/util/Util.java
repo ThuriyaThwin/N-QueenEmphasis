@@ -6,8 +6,19 @@ import java.util.*;
 public class Util {
     public static final String NO = "No";
     public static final String YES = "Yes";
-    //
     private static Random _r = new Random();
+
+    public static boolean choice;
+
+    public static void setposition(boolean t)
+    {
+        choice=t;
+    }
+
+    public static boolean getposition()
+    {
+        return choice;
+    }
 
     /**
      * Get the first element from a list.

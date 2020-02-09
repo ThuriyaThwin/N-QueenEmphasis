@@ -2,6 +2,9 @@ package backJumping.prosser;
 
 import backJumping.csp.Problem;
 import backJumping.csp.ValSet;
+import engine.csp.Assignment;
+import engine.csp.Variable;
+import nqueens.NQueensCSP;
 
 import java.util.ArrayList;
 
@@ -15,6 +18,8 @@ public class CBJ extends Bcssp {
         super(problem);
         current_domain = new ValSet[n];
         v = new Integer[n];
+        NQueensCSP csp=new NQueensCSP(n);
+        csp.getConstraints();
         conf_set = new ValSet[n];
         for (Integer i = 0; i < n; i++) {
             conf_set[i] = new ValSet(n);
@@ -24,6 +29,7 @@ public class CBJ extends Bcssp {
     }
 
     public Integer label(Integer i) {
+        Assignment a=new Assignment();
         consistant = false;
         Integer d_index = 0;
         while ((d_index < d) && (!consistant)) {
@@ -32,6 +38,8 @@ public class CBJ extends Bcssp {
                 d_index++;
                 continue;
             }
+            Variable variable=new Variable(""+i);
+            a.add(variable,d_index);
             v[i] = d_index;
             arrayList.add(i + " " + v[i]);
             assignments++;
@@ -40,6 +48,7 @@ public class CBJ extends Bcssp {
             Integer h;
 
             for (h = 0; (h < i) && consistant; h++) {//The problem it always false
+
                 consistant = problem.check(i, v[i], h, v[h]);
             }
 

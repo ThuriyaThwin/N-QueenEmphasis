@@ -1,10 +1,6 @@
 package backJumping.prosser;
-
-
-import backJumping.csp.Definitions;
 import backJumping.csp.Problem;
 import backJumping.util.stack.IntStack;
-
 import java.util.ArrayList;
 import java.util.StringJoiner;
 
@@ -37,37 +33,27 @@ public abstract class Bcssp {
         assignments = 0;
     }
 
-    public static Integer max_list(IntStack list) {
-        Integer result = -1;
-        for (Integer l = 0; l < list.size(); l++) {
-            Integer k = list.peek(l);
-            if (k > result)
-                result = k;
-        }
-
-        return result;
-    }
-
     // should be implemeted by the simulation classes
     public abstract Integer label(Integer i);
 
     public abstract Integer unlabel(Integer i);
 
     // run the algorithm main loop
-    public Definitions.StatOptions bcssp() {
-        Definitions.StatOptions status = Definitions.StatOptions.UNKNOWN;
+    public StatOptions bcssp() {
+        StatOptions status = StatOptions.UNKNOWN;
         consistant = true;
         Integer i = 0;
 
 
-        while (status == Definitions.StatOptions.UNKNOWN) {
+        while (status == StatOptions.UNKNOWN) {
             if (consistant)
                 i = label(i);// can only return queen piece
             else
                 i = unlabel(i);
 
-            if (i >= problem.getN())
-                status = Definitions.StatOptions.SOLUTION;
+            if (i == problem.getN()) {
+                status = StatOptions.SOLUTION;
+            }
            /* else if (i == -1)
                 status = Definitions.StatOptions.IMPOSSIBLE;*/
         }
@@ -104,5 +90,4 @@ public abstract class Bcssp {
 
 
 }
-
 
