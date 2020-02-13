@@ -16,6 +16,7 @@ public class ForwardCheckingStrategy<VAR extends Variable, VAL> implements Infer
     /**
      * The CSP is not changed at the beginning.
      */
+
     @Override
     public InferenceLog apply(CSP csp) {
         return InferenceLog.emptyLog();
@@ -27,6 +28,7 @@ public class ForwardCheckingStrategy<VAR extends Variable, VAL> implements Infer
      * It is called after <code>assignment</code> has (recursively) been extended with a value
      * assignment for <code>var</code>.
      */
+
     @Override
     public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var) {
         DomainLog<VAR, VAL> log = new DomainLog<>();
@@ -49,6 +51,7 @@ public class ForwardCheckingStrategy<VAR extends Variable, VAL> implements Infer
      * <code>constraint</code> and <code>assignment</code>. Modifies the engine.csp.domain log accordingly so
      * that all changes can be undone later on.
      */
+
     private boolean revise(VAR var, Constraint<VAR, VAL> constraint, Assignment<VAR, VAL> assignment,
                            CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log) {
 

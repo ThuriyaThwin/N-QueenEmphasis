@@ -11,12 +11,12 @@ import java.io.OutputStreamWriter;
 
 public class ConsoleApp {
     public static void main(String args[]) throws IOException {
-        NQueensCSP csp = new NQueensCSP(30);
+        NQueensCSP csp = new NQueensCSP(16);
         BufferedWriter log = new BufferedWriter(new OutputStreamWriter(System.out));
           //Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
         //Runtime runtime = Runtime.getRuntime();//for memory
         FlexibleBacktrackingSolver bts = new FlexibleBacktrackingSolver();
-        bts.set(new ForwardCheckingStrategy()).set(CspHeuristics.lcv());
+        bts.set(CspHeuristics.mrv()).set(new ForwardCheckingStrategy());
         double start = System.currentTimeMillis();
         bts.solve(csp);
         double end = System.currentTimeMillis();

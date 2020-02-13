@@ -4,7 +4,6 @@ import engine.csp.CSP;
 import engine.csp.Variable;
 import engine.csp.inference.InferenceLog;
 import util.Pair;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

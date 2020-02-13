@@ -24,8 +24,7 @@ public interface CspListener<VAR extends Variable, VAL> {
      * A simple CSP listener implementation which counts assignment changes and changes caused by
      * inference steps and provides some metrics.
      *
-     * @author Ruediger Lunde
-     */
+     * */
     class StepCounter<VAR extends Variable, VAL> implements CspListener<VAR, VAL> {
         private int assignmentCount = 0;
 

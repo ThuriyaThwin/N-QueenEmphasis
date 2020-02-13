@@ -9,8 +9,6 @@ import engine.csp.inference.InferenceStrategy;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-
 /**
  * This backtracking search implementation can be configured with arbitrary strategies for variable selection,
  * value ordering, and inference. These strategies are represented by objects implementing standard interfaces.

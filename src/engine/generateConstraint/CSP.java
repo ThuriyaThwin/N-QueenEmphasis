@@ -12,7 +12,7 @@ public class CSP {
 
 
     public CSP(int n) throws Exception {
-        FileWriter fileWriter = new FileWriter("./constraint/" + 100 + ".txt");
+        FileWriter fileWriter = new FileWriter("./constraint/" + 4 + ".txt");
         this.nbVariables = n;
 
         List<Integer> domain = new ArrayList<Integer>();

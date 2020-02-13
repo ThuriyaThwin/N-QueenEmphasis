@@ -32,11 +32,15 @@ public interface InferenceLog<VAR extends Variable, VAL> {
         };
     }
 
+    //returns true if no changes occurred in the CSP after inference procedure was applied
     boolean isEmpty();
 
+    /*returns true if for a variable an "empty domain" was inferred.
+    If an empty domain is inferred, it implies that no consistent assignment is possible for the CSP.*/
     boolean inconsistencyFound();
 
+   /* this method is used to undo the inference carried out.
+    That is, it restores the CSP to the state it was before the inference strategy was applied*/
     void undo(CSP<VAR, VAL> csp);
-
 
 }
