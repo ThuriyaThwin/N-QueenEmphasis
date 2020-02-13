@@ -2,6 +2,7 @@ package nqueens;
 
 import engine.algo.CspHeuristics;
 import engine.algo.FlexibleBacktrackingSolver;
+import engine.algo.TreeCspSolver;
 import engine.csp.Assignment;
 import engine.csp.CSP;
 import engine.csp.CspListener;
@@ -42,12 +43,13 @@ public class NQueensCSP extends CSP<Variable, Integer> {
     }
 
     public static void main(String args[]) throws IOException {
-        NQueensCSP csp = new NQueensCSP(13);
+        NQueensCSP csp = new NQueensCSP(4);
 
         //  Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
         //Runtime runtime = Runtime.getRuntime();//for memory
-        FlexibleBacktrackingSolver bts = new FlexibleBacktrackingSolver();
-
+        TreeCspSolver bts = new TreeCspSolver();
+        bts.useRandom(true);
+        bts.solve(csp);
         bts.addCspListener(new CspListener() {
             @Override
             public void stateChanged(CSP csp, Assignment assignment, Variable variable) {
@@ -60,11 +62,11 @@ public class NQueensCSP extends CSP<Variable, Integer> {
         });
 
         double start = System.currentTimeMillis();
-        Util.setposition(true);
-        bts.solveAll(csp);
+      //  Util.setposition(true);
+        /*bts.solveAll(csp);*/
         double end = System.currentTimeMillis();
         System.out.println("\nTime to solve in second       = " + (end - start) * 0.001 + " s");
-        System.out.println(bts.getNumberOfSolution());
-        System.out.println("\n" + bts.getNumberOfNodesVisited());
+       /* System.out.println(bts.getNumberOfSolution());
+        System.out.println("\n" + bts.getNumberOfNodesVisited());*/
     }
 }

@@ -9,7 +9,6 @@ import nqueens.NQueensCSP;
 import java.util.ArrayList;
 
 public class CBJ extends Bcssp {
-
     public static final ArrayList<String> arrayList = new ArrayList<>();
     private ValSet conf_set[];
     private ValSet current_domain[];

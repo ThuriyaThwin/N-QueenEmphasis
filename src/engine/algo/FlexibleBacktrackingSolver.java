@@ -68,7 +68,10 @@ public class FlexibleBacktrackingSolver<VAR extends Variable, VAL> extends Abstr
         }
         return super.solve(csp);
     }
-
+    @Override
+    public Optional<Assignment<VAR, VAL>> solveSpecific(CSP<VAR, VAL> csp,Assignment initial) {
+        return super.solveSpecific(csp,initial);
+    }
     /**
      * Primitive operation, selecting a not yet assigned variable.
      */

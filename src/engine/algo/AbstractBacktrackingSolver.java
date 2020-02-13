@@ -7,7 +7,7 @@ import engine.csp.Variable;
 import engine.csp.inference.InferenceLog;
 import util.Tasks;
 import util.Timer;
-import util.Util;
+
 import java.util.Optional;
 
 /**
@@ -59,7 +59,7 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
     private int numberOfNodesAssigned = 0;
 
     /**
-     * Applies a recursive backtracking search to solve the CSP.
+     * solve the CSP with naive.
      */
 
     public Optional<Assignment<VAR, VAL>> solve(CSP<VAR, VAL> csp) {
@@ -70,6 +70,25 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
         return result != null ? Optional.of(result) : Optional.empty();
     }
 
+    /**
+     * solve the CSP with Specific Assignment.
+     */
+    public Optional<Assignment<VAR, VAL>> solveSpecific(CSP<VAR, VAL> csp, Assignment initial) {
+        /*if(test==0 ) {// For desired user input
+               //    var = Util.selectRandomlyFromList(csp.getVariables());//console random
+                 var=csp.getVariables().get(1);
+                  test++;
+              }*/
+        Timer.tic();
+        Assignment<VAR, VAL> result = backtrack(csp, initial);
+        time = Timer.toc();
+        this.solveAll = false;
+        return result != null ? Optional.of(result) : Optional.empty();
+    }
+
+    /**
+     * solve the CSP for all solutions.
+     */
     public Optional<Assignment<VAR, VAL>> solveAll(CSP<VAR, VAL> csp) {
         this.clearAll();
         this.solveAll = true;
@@ -84,26 +103,17 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
             if (solveAll) {
                 // show a joption pane dialog using showMessageDialog
                 ++count;
-               //JOptionPane.showMessageDialog(new JFrame("Solution"), ++count + " Solution Found :" + assignment.toString());
+                //JOptionPane.showMessageDialog(new JFrame("Solution"), ++count + " Solution Found :" + assignment.toString());
             } else {
                 result = assignment;
             }
         } else {
             // var <- SELECT-UNASSIGNED-VARIABLE(assignment, csp)
             VAR var = selectUnassignedVariable(csp, assignment);
-
-              if(test==0 ) {// For desired user input
-               //    var = Util.selectRandomlyFromList(csp.getVariables());//console random
-                 var=csp.getVariables().get(1);
-                  test++;
-              }
             // for each value in ORDER-DOMAIN-VALUES(var, assignment, csp) do
             for (VAL value : orderDomainValues(csp, assignment, var)) {
                 // if value is consistent with assignment then
                 assignment.add(var, value);
-                // System.out.println(var+" Domain  ="+csp.getDomain(var));
-                //  System.out.println(var+" Constraint ="+csp.getConstraints(var));
-
                 //add {var = value} to assignment
                 numberOfNodesVisited++;
                 fireStateChanged(csp, assignment, var);

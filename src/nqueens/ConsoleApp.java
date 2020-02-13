@@ -1,4 +1,4 @@
-package simulation;
+package nqueens;
 
 import engine.algo.CspHeuristics;
 import engine.algo.FlexibleBacktrackingSolver;
