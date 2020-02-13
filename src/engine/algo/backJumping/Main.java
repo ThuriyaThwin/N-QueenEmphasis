@@ -1,8 +1,8 @@
-package backJumping;
+package engine.algo.backJumping;
 
 
-import backJumping.csp.Problem;
-import backJumping.prosser.CBJ;
+import engine.algo.backJumping.csp.Problem;
+import engine.algo.backJumping.prosser.CBJ;
 import util.Timer;
 
 public class Main {

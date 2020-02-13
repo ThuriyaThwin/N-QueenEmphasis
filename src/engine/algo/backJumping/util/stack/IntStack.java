@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 
-package backJumping.util.stack;
+package engine.algo.backJumping.util.stack;
 
 /**
  * Growable <code>int</code> stack with type specific access methods. This

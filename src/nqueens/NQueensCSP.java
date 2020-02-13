@@ -42,31 +42,4 @@ public class NQueensCSP extends CSP<Variable, Integer> {
         }
     }
 
-    public static void main(String args[]) throws IOException {
-        NQueensCSP csp = new NQueensCSP(4);
-
-        //  Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
-        //Runtime runtime = Runtime.getRuntime();//for memory
-        TreeCspSolver bts = new TreeCspSolver();
-        bts.useRandom(true);
-        bts.solve(csp);
-        bts.addCspListener(new CspListener() {
-            @Override
-            public void stateChanged(CSP csp, Assignment assignment, Variable variable) {
-                try {
-                    System.out.println("Assignment Evolved :" + assignment + "\n");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        double start = System.currentTimeMillis();
-      //  Util.setposition(true);
-        /*bts.solveAll(csp);*/
-        double end = System.currentTimeMillis();
-        System.out.println("\nTime to solve in second       = " + (end - start) * 0.001 + " s");
-       /* System.out.println(bts.getNumberOfSolution());
-        System.out.println("\n" + bts.getNumberOfNodesVisited());*/
-    }
 }

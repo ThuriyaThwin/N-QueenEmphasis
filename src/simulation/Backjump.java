@@ -1,8 +1,8 @@
 package simulation;
 
-import backJumping.csp.Problem;
-import backJumping.prosser.Bcssp;
-import backJumping.prosser.CBJ;
+import engine.algo.backJumping.csp.Problem;
+import engine.algo.backJumping.prosser.Bcssp;
+import engine.algo.backJumping.prosser.CBJ;
 import javafx.application.Platform;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;

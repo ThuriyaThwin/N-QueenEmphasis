@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 
-package backJumping.util;
+package engine.algo.backJumping.util;
 
 
 import java.lang.reflect.Array;

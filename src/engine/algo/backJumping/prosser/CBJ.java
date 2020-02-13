@@ -1,7 +1,7 @@
-package backJumping.prosser;
+package engine.algo.backJumping.prosser;
 
-import backJumping.csp.Problem;
-import backJumping.csp.ValSet;
+import engine.algo.backJumping.csp.Problem;
+import engine.algo.backJumping.csp.ValSet;
 import engine.csp.Assignment;
 import engine.csp.Variable;
 import nqueens.NQueensCSP;

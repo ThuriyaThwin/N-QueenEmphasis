@@ -20,10 +20,10 @@
  * IN THE SOFTWARE.
  */
 
-package backJumping.util.stack;
+package engine.algo.backJumping.util.stack;
 
 
-import backJumping.util.GrowableBase;
+import engine.algo.backJumping.util.GrowableBase;
 
 /**
  * Base class for type-specific stack classes with any type of values

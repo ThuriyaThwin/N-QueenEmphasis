@@ -1,6 +1,6 @@
-package backJumping.prosser;
-import backJumping.csp.Problem;
-import backJumping.util.stack.IntStack;
+package engine.algo.backJumping.prosser;
+import engine.algo.backJumping.csp.Problem;
+
 import java.util.ArrayList;
 import java.util.StringJoiner;
 
