@@ -1,19 +1,11 @@
 package nqueens;
 
-import engine.algo.CspHeuristics;
-import engine.algo.FlexibleBacktrackingSolver;
-import engine.algo.TreeCspSolver;
-import engine.csp.Assignment;
 import engine.csp.CSP;
 import engine.csp.CspListener;
 import engine.csp.Variable;
 import engine.csp.constraints.DiffNotEqualConstraint;
 import engine.csp.domain.Domain;
-import engine.csp.inference.AC3Strategy;
-import engine.csp.inference.ForwardCheckingStrategy;
-import util.Util;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

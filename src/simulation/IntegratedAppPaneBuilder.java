@@ -24,6 +24,7 @@ import util.Util;
 public class IntegratedAppPaneBuilder {
     private MenuBar menuBar = new MenuBar();
     private Menu appsMenu = new Menu("Simulate");
+    private Menu demo=new Menu("Demo");
     private String title = "";
     private IntegratedAppPaneCtrl paneCtrl;
 
@@ -45,7 +46,7 @@ public class IntegratedAppPaneBuilder {
 
         Menu fileMenu = new Menu("File");
         fileMenu.getItems().addAll(incScaleItem, decScaleItem,separator,exitItem);
-        menuBar.getMenus().addAll(fileMenu, appsMenu);// MenuBar
+        menuBar.getMenus().addAll(fileMenu,demo, appsMenu);// MenuBar
         menuBar.styleProperty().bind(Bindings.concat("-fx-font-size: ",
                 paneCtrl.scaleProperty().multiply(Font.getDefault().getSize()).asString()));
 
@@ -77,13 +78,13 @@ public class IntegratedAppPaneBuilder {
         addToMenu(appsMenu, "Algorithm", item);
     }
 
-	/*public void registerDemo(Class<?> demoClass) {
+	public void registerDemo(Class<?> demoClass) {
 		final IntegratedAppPaneCtrl ctrl = paneCtrl;
 		MenuItem item = new MenuItem(demoClass.getSimpleName());
 		item.setOnAction(ev -> ctrl.startProg(demoClass));
-		addToMenu(demosMenu, demoClass.getPackage().getName(), item);
+		addToMenu(demo, demoClass.getPackage().getName(), item);
 	}
-*/
+
 
     /**
      * Adds a menu bar and a scalable container pane to the provided root pane and
@@ -105,7 +106,6 @@ public class IntegratedAppPaneBuilder {
                 .bind(appPaneContainer.widthProperty().subtract(appPane.prefWidthProperty()).divide(2));
         appPane.translateYProperty()
                 .bind(appPaneContainer.heightProperty().subtract(appPane.prefHeightProperty()).divide(2));
-
         paneCtrl.setContext(appPane, stage, title);
 
         root.setTop(menuBar);

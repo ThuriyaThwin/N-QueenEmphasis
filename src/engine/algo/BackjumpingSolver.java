@@ -8,7 +8,10 @@ import engine.csp.inference.InferenceLog;
 import util.Tasks;
 import util.Timer;
 import util.Util;
+
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.TreeSet;
 
 public abstract class BackjumpingSolver<VAR extends Variable, VAL> extends CspSolver<VAR, VAL> {
     static int count = 0;
@@ -18,12 +21,15 @@ public abstract class BackjumpingSolver<VAR extends Variable, VAL> extends CspSo
     private int test = 0;
     private int numberOfNodesVisited = 0;
     private int numberOfNodesAssigned = 0;
+    public ArrayList<TreeSet<Variable>> varArrayList = new ArrayList<TreeSet<Variable>>();//Building a conflict-set
 
     /**
      * Applies a recursive backtracking search to solve the CSP.
      */
     public Optional<Assignment<VAR, VAL>> solve(CSP<VAR, VAL> csp) {
         Timer.tic();
+        for (int i = 0; i < csp.getVariables().size(); i++)
+            varArrayList.add(new TreeSet<>());
         Assignment<VAR, VAL> result = backjump(csp, new Assignment<>());
         time = Timer.toc();
         this.solveAll = false;
@@ -42,15 +48,11 @@ public abstract class BackjumpingSolver<VAR extends Variable, VAL> extends CspSo
         Assignment<VAR, VAL> result = null;
         // if assignment is complete then return assignment
         if (assignment.isComplete(csp.getVariables()) || Tasks.currIsCancelled()) {
-                result = assignment;
+            result = assignment;
         } else {
             // var <- SELECT-UNASSIGNED-VARIABLE(assignment, csp)
             VAR var = selectUnassignedVariable(csp, assignment);
 
-            if(test==0 && Util.getposition()) {// For desired user input
-                var = Util.selectRandomlyFromList(csp.getVariables());//console random
-                test++;
-            }
             // for each value in ORDER-DOMAIN-VALUES(var, assignment, csp) do
             for (VAL value : orderDomainValues(csp, assignment, var)) {
                 // if value is consistent with assignment then
@@ -60,29 +62,24 @@ public abstract class BackjumpingSolver<VAR extends Variable, VAL> extends CspSo
                 if (assignment.isConsistent(csp.getConstraints(var))) {
                     numberOfNodesAssigned++;
                     // inferences <- INFERENCE(csp, assignment, var, value)
-                    InferenceLog<VAR, VAL> log = inference(csp, assignment, var);
-                    // if inferences != failure then
-                    if (!log.isEmpty())
-                        fireStateChanged(csp, new Assignment<>(), var);
-                    if (!log.inconsistencyFound()) {
-                        result = backjump(csp, assignment);
-                        // if result != failure then
-                        if (result != null)
-                            // return result
-                            break;
-                        if (result == null) {
-                            numberOfBacktrack++;
-                        }
+
+                    result = backjump(csp, assignment);
+                    // if result != failure then
+                    if (result != null)
+                        // return result
+                        break;
+                    if (result == null) {
+                        numberOfBacktrack++;
                     }
-                    // remove inferences from assignment
-                    log.undo(csp);
+                } else {
+                //  varArrayList.get(0).addAll(assignment.getVariables());
                 }
-                // remove {var = value} from assignment
-                assignment.remove(var);
             }
-            Variable dead=var;
-            
+
+            // remove {var = value} from assignment
+            assignment.remove(var);
         }
+
         // return failure
         return result;
     }

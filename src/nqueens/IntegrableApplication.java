@@ -15,16 +15,16 @@ import javafx.stage.Stage;
 public abstract class IntegrableApplication extends Application {
 
     protected double defaultWidth = 1200;
-    protected double defaultHeight = 800;
-
     @Override
     public final void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle(getTitle());
+        initialize();
         primaryStage.setScene(new Scene(createRootPane(), defaultWidth, defaultHeight));//opt for the size of the scene by passing its dimensions (height and width) along with the root node to its constructor.
         //primaryStage.setResizable(false);
         primaryStage.show();//must call to display the contents of a stage
-        initialize();
     }
+
+    protected double defaultHeight = 800;
 
     /**
      * Returns the title of the application.

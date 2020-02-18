@@ -8,9 +8,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import console.BTConsole;
 import nqueens.IntegrableApplication;
 import util.CancellableThread;
+import util.StoreResult;
 
+import javax.swing.*;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,6 +27,7 @@ import java.util.Optional;
  * into the window of the integrated application, title update, and for scale
  * property management.
  */
+
 public class IntegratedAppPaneCtrl {
 
     private BorderPane pane;
@@ -36,7 +40,7 @@ public class IntegratedAppPaneCtrl {
 
     private DoubleProperty scale = new SimpleDoubleProperty();
     private Optional<IntegrableApplication> currApp = Optional.empty();
-    private Optional<CancellableThread> currProgThread = Optional.empty();
+    private Optional<CancellableThread> currProgThread = Optional.empty();//just like assigning null
 
     public IntegratedAppPaneCtrl() {
         messageArea = new TextArea();
@@ -75,13 +79,16 @@ public class IntegratedAppPaneCtrl {
 
     public void startProg(Class<?> progClass) {
         stopRunningAppsAndProgs();
+        userInputData();
         if (pane.getCenter() != messageScrollPane)
             pane.setCenter(messageScrollPane);
         messageArea.clear();
         updateStageTitle();
+
         // redirect the standard output into the text area
         PrintStream pStream = messagePaneCtrl.getPrintStream();
         System.setOut(pStream);
+
         // System.setErr(messagePaneCtrl.getPrintStream());
         currProgThread = Optional.of(new CancellableThread(() -> {
             startMain(progClass);
@@ -91,9 +98,17 @@ public class IntegratedAppPaneCtrl {
         currProgThread.get().start();
     }
 
+    private void userInputData()
+    {
+        String size=JOptionPane.showInputDialog("Enter N-Queen Size :");
+        StoreResult.size=Integer.parseInt(size);
+
+    }
+
     private void startMain(Class<?> progClass) {
         try {
             Method m = progClass.getMethod("main", String[].class);
+
             m.invoke(null, (Object) new String[]{});
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
                 | SecurityException e) {

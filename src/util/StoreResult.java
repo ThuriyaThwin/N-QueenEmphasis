@@ -3,6 +3,7 @@ package util;
 import java.util.ArrayList;
 
 public class StoreResult {
+    public static int size=0;
     public static final ArrayList a = new ArrayList<>();
 
     public StoreResult(String value) {

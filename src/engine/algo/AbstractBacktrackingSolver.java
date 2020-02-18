@@ -125,7 +125,7 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
                     if (!log.isEmpty())
                         fireStateChanged(csp, new Assignment<>(), var);
                     if (!log.inconsistencyFound()) {
-                        result = backtrack(csp, assignment);
+                        result = backtrack(csp, assignment);//even result==null the code not reach numberOfBacktrack until it returns result=null;
                         // if result != failure then
                         if (result != null)
                             // return result
@@ -140,9 +140,10 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
                 // remove {var = value} from assignment
                 assignment.remove(var);
             }
+            //It is a place which occurs deadend variable.
         }
         // return failure
-        return result;
+        return result;//result==null when variable has no value to try.
     }
 
     /**
