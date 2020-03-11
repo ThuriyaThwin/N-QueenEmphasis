@@ -56,6 +56,9 @@ public class NQueensBoard {
             y = r.nextInt(size);
             x=r.nextInt(size);
             addQueenAt(new XYLocation(y, x));
+        }else if (config == Config.Queen_IN_SPECIFIC) {
+
+            addQueenAt(new XYLocation(y, x));
         }
     }
 
@@ -291,6 +294,6 @@ public class NQueensBoard {
      * Parameters for initialization.
      */
     public static enum Config {
-        EMPTY, QUEENS_IN_FIRST_ROW, QUEEN_IN_EVERY_COL
+        EMPTY, QUEENS_IN_FIRST_ROW, QUEEN_IN_EVERY_COL,Queen_IN_SPECIFIC
     }
 }

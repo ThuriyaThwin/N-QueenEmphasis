@@ -24,7 +24,7 @@ import util.Util;
 public class IntegratedAppPaneBuilder {
     private MenuBar menuBar = new MenuBar();
     private Menu appsMenu = new Menu("Simulate");
-    private Menu demo=new Menu("Demo");
+    private Menu demo=new Menu("Console");
     private String title = "";
     private IntegratedAppPaneCtrl paneCtrl;
 

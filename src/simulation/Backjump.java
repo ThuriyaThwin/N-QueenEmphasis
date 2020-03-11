@@ -78,7 +78,7 @@ public class Backjump extends IntegrableApplication {
         p2.setDefaultValueIndex(0);
 
         Parameter p3 = new Parameter(SOLUTION, "Single");
-        Parameter p4 = new Parameter(POSITION,"Static","Random");
+        Parameter p4 = new Parameter(POSITION,"Static","Specific");
         return Arrays.asList(p1, p2, p3,p4);
     }
 

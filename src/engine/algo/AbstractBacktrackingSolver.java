@@ -5,6 +5,7 @@ import engine.csp.CSP;
 import engine.csp.CspSolver;
 import engine.csp.Variable;
 import engine.csp.inference.InferenceLog;
+import nqueens.view.NQueensBoard;
 import util.Tasks;
 import util.Timer;
 
@@ -110,6 +111,10 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
         } else {
             // var <- SELECT-UNASSIGNED-VARIABLE(assignment, csp)
             VAR var = selectUnassignedVariable(csp, assignment);
+             if(test==0 ) {// For desired user input
+                 var=csp.getVariables().get(NQueensBoard.y);
+                  test++;
+              }
             // for each value in ORDER-DOMAIN-VALUES(var, assignment, csp) do
             for (VAL value : orderDomainValues(csp, assignment, var)) {
                 // if value is consistent with assignment then

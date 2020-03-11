@@ -70,7 +70,7 @@ public class FlexibleBacktrackingSolver<VAR extends Variable, VAL> extends Abstr
     public Optional<Assignment<VAR, VAL>> solveSpecific(CSP<VAR, VAL> csp,Assignment initial) {
         return super.solveSpecific(csp,initial);
     }
-    /**
+    /**b
      * Primitive operation, selecting a not yet assigned variable.
      */
     @Override

@@ -9,12 +9,15 @@ import javafx.concurrent.Task;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import jdk.nashorn.internal.scripts.JO;
 import nqueens.*;
 import nqueens.view.NQueensBoard;
 import nqueens.view.Parameter;
 import util.StoreResult;
 import util.Util;
 import util.XYLocation;
+
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -79,7 +82,7 @@ public class Backtrack extends IntegrableApplication {
         p2.setDefaultValueIndex(0);
 
         Parameter p3 = new Parameter(SOLUTION,"Single","All");
-        Parameter p4 = new Parameter(POSITION,"Static","Random");
+        Parameter p4 = new Parameter(POSITION,"Static","Specific");
         return Arrays.asList(p1, p2,p3,p4);
     }
 
@@ -125,7 +128,6 @@ public class Backtrack extends IntegrableApplication {
             bSolver.set(new ForwardCheckingStrategy<>()).set(CspHeuristics.lcv());
             algorithmName="FC-LCV";
         }
-
         solver=bSolver;
         solver.addCspListener(stepCounter);
         solver.addCspListener(
@@ -141,8 +143,11 @@ public class Backtrack extends IntegrableApplication {
             Util.setposition(false);
             stateViewCtrl.update(new NQueensBoard(csp.getVariables().size()));// For initial update
         }else {
-            Util.setposition(true);
-            stateViewCtrl.update(new NQueensBoard(csp.getVariables().size(), NQueensBoard.Config.QUEEN_IN_EVERY_COL));// For initial update
+            String y= JOptionPane.showInputDialog("Enter the y coordinate");
+            String x= JOptionPane.showInputDialog("Enter the x coordinate");
+            NQueensBoard.y=Integer.parseInt(y)-1;
+            NQueensBoard.x=Integer.parseInt(x)-1;
+            stateViewCtrl.update(new NQueensBoard(csp.getVariables().size(), NQueensBoard.Config.Queen_IN_SPECIFIC));// For initial update
         }
 
 
@@ -168,11 +173,24 @@ public class Backtrack extends IntegrableApplication {
         Object choice = taskPaneCtrl.getParamValue(SOLUTION);
         Optional<Assignment<Variable, Integer>> solution;
         if(choice.equals("Single")) {
-            solution =bSolver.solve(csp);
+
+            if (taskPaneCtrl.getParamValue(POSITION).equals("Specific"))
+            {
+                /*Assignment expected = new Assignment();
+                Variable variable= new Variable("Q" + (NQueensBoard.y+1));
+                expected.add(variable, (NQueensBoard.x+1));
+               solution= bSolver.solveSpecific(csp,expected);*/
+
+                solution=bSolver.solve(csp);
+            }else
+            {
+                solution=bSolver.solve(csp);
+            }
         }
         else {
             solution=bSolver.solveAll(csp);
         }
+
         if (solution.isPresent()) {//?
             NQueensBoard board = getBoard(solution.get());
             stateViewCtrl.update(board);
