@@ -1,22 +1,21 @@
 package simulation;
+
+import engine.algo.AbstractBacktrackingSolver;
 import engine.algo.CspHeuristics;
 import engine.algo.FlexibleBacktrackingSolver;
 import engine.csp.*;
 import engine.csp.inference.AC3Strategy;
 import engine.csp.inference.ForwardCheckingStrategy;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import jdk.nashorn.internal.scripts.JO;
 import nqueens.*;
 import nqueens.view.NQueensBoard;
 import nqueens.view.Parameter;
 import util.StoreResult;
 import util.Util;
 import util.XYLocation;
-
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
@@ -143,6 +142,7 @@ public class Backtrack extends IntegrableApplication {
             Util.setposition(false);
             stateViewCtrl.update(new NQueensBoard(csp.getVariables().size()));// For initial update
         }else {
+            Util.setposition(true);
             String y= JOptionPane.showInputDialog("Enter the y coordinate");
             String x= JOptionPane.showInputDialog("Enter the x coordinate");
             NQueensBoard.y=Integer.parseInt(y)-1;
@@ -179,7 +179,7 @@ public class Backtrack extends IntegrableApplication {
                 /*Assignment expected = new Assignment();
                 Variable variable= new Variable("Q" + (NQueensBoard.y+1));
                 expected.add(variable, (NQueensBoard.x+1));
-               solution= bSolver.solveSpecific(csp,expected);*/
+                solution= bSolver.solveSpecific(csp,expected);*/
 
                 solution=bSolver.solve(csp);
             }else
@@ -204,8 +204,11 @@ public class Backtrack extends IntegrableApplication {
         stringBuilder.append("Time to solve in second       \t \t = " + bSolver.getTime() + " s"+ "\n");
 
         taskPaneCtrl.setText("Number of nodes visited\t\t\t= " + bSolver.getNumberOfNodesVisited() + " nodes");
-        stringBuilder.append("Number of nodes visited        \t\t = " + bSolver.getNumberOfNodesVisited() + " nodes"+ "\n");
-
+        stringBuilder.append("Number of nodes visited       \t = " + bSolver.getNumberOfNodesVisited() + " nodes"+ "\n");
+        if(!choice.equals("Single")) {
+            taskPaneCtrl.setText("Number of Solutions\t\t\t= " + bSolver.getNumberOfSolution() + " solutions");
+            stringBuilder.append("Number of Solutions\t      \t = " + bSolver.getNumberOfSolution() + " solutions"+ "\n");
+        }
         storeResult.addResult(stringBuilder.toString());
     }
 

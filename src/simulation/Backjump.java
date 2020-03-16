@@ -17,6 +17,7 @@ import util.StoreResult;
 import util.Util;
 import util.XYLocation;
 
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -98,9 +99,14 @@ public class Backjump extends IntegrableApplication {
             stateViewCtrl.update(new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE)));// For initial update
         }else {
             Util.setposition(true);
-            stateViewCtrl.update(new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.QUEEN_IN_EVERY_COL));// For initial update
+            String y= JOptionPane.showInputDialog("Enter the y coordinate");
+            String x= JOptionPane.showInputDialog("Enter the x coordinate");
+            NQueensBoard.y=Integer.parseInt(y)-1;
+            NQueensBoard.x=Integer.parseInt(x)-1;
+            stateViewCtrl.update(new NQueensBoard(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE), NQueensBoard.Config.Queen_IN_SPECIFIC));// For initial update
         }
-
+        taskPaneCtrl.setStatus("");
+        taskPaneCtrl.textArea.clear();
     }
 
     @Override

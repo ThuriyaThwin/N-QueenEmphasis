@@ -1,10 +1,7 @@
 package console;
 
-import engine.algo.BJ;
-import engine.algo.BackjumpingSolver;
 import engine.algo.FlexibleBacktrackingSolver;
 import engine.csp.Assignment;
-import engine.csp.inference.ForwardCheckingStrategy;
 import nqueens.NQueensCSP;
 import util.StoreResult;
 
@@ -20,7 +17,6 @@ public class FCConsole {
         NQueensCSP csp = new NQueensCSP(StoreResult.size=4);
         BufferedWriter log = new BufferedWriter(new OutputStreamWriter(System.out));
         //Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
-        //Runtime runtime = Runtime.getRuntime();//for memory
         FlexibleBacktrackingSolver bts = new FlexibleBacktrackingSolver();
        // bts.set(new ForwardCheckingStrategy());
         double start = System.currentTimeMillis();

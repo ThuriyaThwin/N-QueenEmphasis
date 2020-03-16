@@ -253,7 +253,7 @@ public class Util {
                 "\n" +
                 "2. If user wants single solution of N-Queens,choose \"solution=Single\".Otherwise, choose \"solution=Multi\".\n" +
                 "\n" +
-                "3. If user wants to place initial queen poisiton randomly,choose \"position=Static\".The default queen position is at \"1,1\".\n" +
+                "3. If user wants to place initial queen poisiton randomly,choose \"position=Specific\".The default queen position is at \"1,1\".\n" +
                 "\n" +
                 "4. User can choose the simulation mode Very fast,fast,medium,slow and Step mode. User can cancel or change mode during simulation.\n" +
                 "\n" +

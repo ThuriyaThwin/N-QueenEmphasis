@@ -3,7 +3,6 @@ package console;
 import engine.algo.CspHeuristics;
 import engine.algo.FlexibleBacktrackingSolver;
 import engine.csp.Assignment;
-import engine.csp.inference.AC3Strategy;
 import engine.csp.inference.ForwardCheckingStrategy;
 import nqueens.NQueensCSP;
 import util.StoreResult;
@@ -19,7 +18,6 @@ public class FCMRVConsole {
         NQueensCSP csp = new NQueensCSP(StoreResult.size);
         BufferedWriter log = new BufferedWriter(new OutputStreamWriter(System.out));
         //Executors.newSingleThreadScheduledExecutor().schedule(() -> System.exit(0), 20, TimeUnit.MINUTES);// Program Timer
-        //Runtime runtime = Runtime.getRuntime();//for memory
         FlexibleBacktrackingSolver bts = new FlexibleBacktrackingSolver();
         bts.set(new ForwardCheckingStrategy()).set(CspHeuristics.mrv());
         double start = System.currentTimeMillis();

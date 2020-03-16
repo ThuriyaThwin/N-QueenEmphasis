@@ -8,8 +8,12 @@ import engine.csp.inference.InferenceLog;
 import nqueens.view.NQueensBoard;
 import util.Tasks;
 import util.Timer;
+import util.Util;
 
+import javax.swing.*;
 import java.util.Optional;
+
+import static util.Util.setposition;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.5, Page 215.<br>
@@ -103,15 +107,14 @@ public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> exte
         if (assignment.isComplete(csp.getVariables()) || Tasks.currIsCancelled()) {
             if (solveAll) {
                 // show a joption pane dialog using showMessageDialog
-                ++count;
-                //JOptionPane.showMessageDialog(new JFrame("Solution"), ++count + " Solution Found :" + assignment.toString());
+                JOptionPane.showMessageDialog(new JFrame("Solution"), ++count + " Solution Found :" + assignment.toString());
             } else {
                 result = assignment;
             }
         } else {
             // var <- SELECT-UNASSIGNED-VARIABLE(assignment, csp)
             VAR var = selectUnassignedVariable(csp, assignment);
-             if(test==0 ) {// For desired user input
+             if(test==0  && Util.choice==true) {// For desired user input
                  var=csp.getVariables().get(NQueensBoard.y);
                   test++;
               }
